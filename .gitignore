@@ -1,0 +1,40 @@
+.vscode/
+
+# Ignorar archivos específicos dentro de "crud_basic/"
+crud_basic/HELP.md
+
+# Ignorar directorios de compilación y salidas
+crud_basic/target/
+crud_basic/build/
+
+# Excepciones (permitir archivos dentro de carpetas ignoradas)
+!crud_basic/.mvn/wrapper/maven-wrapper.jar
+!crud_basic/**/src/main/**/target/
+!crud_basic/**/src/test/**/target/
+!crud_basic/**/src/main/**/build/
+!crud_basic/**/src/test/**/build/
+
+# Archivos generados por STS (Spring Tool Suite)
+crud_basic/.apt_generated
+crud_basic/.classpath
+crud_basic/.factorypath
+crud_basic/.project
+crud_basic/.settings/
+crud_basic/.springBeans
+crud_basic/.sts4-cache
+
+# Archivos generados por IntelliJ IDEA
+crud_basic/.idea/
+crud_basic/*.iws
+crud_basic/*.iml
+crud_basic/*.ipr
+
+# Archivos generados por NetBeans
+crud_basic/nbproject/private/
+crud_basic/nbbuild/
+crud_basic/dist/
+crud_basic/nbdist/
+crud_basic/.nb-gradle/
+
+# Configuración de Visual Studio Code
+crud_basic/.vscode/

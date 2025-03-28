@@ -1,0 +1,6 @@
+# Forzar LF en mvnw dentro del hello_world
+hello_world/mvnw text eol=lf
+
+# Forzar CRLF en archivos .cmd dentro del hello_world
+hello_world/*.cmd text eol=crlf
+
