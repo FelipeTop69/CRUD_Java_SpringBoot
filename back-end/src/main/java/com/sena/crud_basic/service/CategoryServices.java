@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sena.crud_basic.DTO.CategoryDTO;
-import com.sena.crud_basic.DTO.responseDTO;
+import com.sena.crud_basic.DTO_Response.responseDTO;
 import com.sena.crud_basic.interfaces.ICategory;
 import com.sena.crud_basic.mapper.CategoryMapper;
 import com.sena.crud_basic.model.Category;

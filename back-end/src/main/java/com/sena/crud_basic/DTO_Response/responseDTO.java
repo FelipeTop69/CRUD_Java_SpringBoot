@@ -1,4 +1,4 @@
-package com.sena.crud_basic.DTO;
+package com.sena.crud_basic.DTO_Response;
 
 import org.springframework.http.HttpStatus;
 

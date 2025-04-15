@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sena.crud_basic.service.CategoryServices;
 import com.sena.crud_basic.DTO.CategoryDTO;
-import com.sena.crud_basic.DTO.responseDTO;
+import com.sena.crud_basic.DTO_Response.responseDTO;
 
 import java.util.List;
 

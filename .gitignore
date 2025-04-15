@@ -1,5 +1,6 @@
 .vscode/
 model/Entidades_Java.txt
+model/Logica_Entidad.txt
 
 # Ignorar archivos específicos dentro de "back-end/"
 back-end/HELP.md

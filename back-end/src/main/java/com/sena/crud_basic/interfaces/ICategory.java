@@ -20,6 +20,6 @@ public interface ICategory extends JpaRepository<Category, Integer>{
         boolean existsByNameIgnoreCase(String name);
 }
 
-        // Version Old
-        // @Query("SELECT COUNT(c) > 0 FROM category c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(?1, ' ', ''))")
-        // boolean existsByName(String name);
+// Version Old
+// @Query("SELECT COUNT(c) > 0 FROM category c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(?1, ' ', ''))")
+// boolean existsByName(String name);
