@@ -34,12 +34,11 @@ public class Location {
     // Constructores
     public Location() {}
 
-    public Location(int id, String name, String address, int capacity, List<Event> events) {
+    public Location(int id, String name, String address, int capacity) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.capacity = capacity;
-        this.events = events;
     }
 
     // Getters and Setters

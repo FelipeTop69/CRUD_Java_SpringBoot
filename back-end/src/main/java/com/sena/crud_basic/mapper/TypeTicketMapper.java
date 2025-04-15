@@ -15,7 +15,7 @@ public class TypeTicketMapper {
         return new TypeTicket(dto.getId(),dto.getName(), dto.getDescription());
     }
 
-    public static List<TypeTicketDTO> toDTOList(List<TypeTicket> categories) {
-        return categories.stream().map(TypeTicketMapper::toDTO).collect(Collectors.toList());
+    public static List<TypeTicketDTO> toDTOList(List<TypeTicket> typeTickets) {
+        return typeTickets.stream().map(TypeTicketMapper::toDTO).collect(Collectors.toList());
     }
 }

@@ -21,8 +21,8 @@ public class TypeTicketServices {
     private ITypeTicket typeTicketData;
 
     public List<TypeTicketDTO> findAllTypeTicket() {
-        List<TypeTicket> tickets = typeTicketData.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        return TypeTicketMapper.toDTOList(tickets);
+        List<TypeTicket> tyoTypeTickets = typeTicketData.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return TypeTicketMapper.toDTOList(tyoTypeTickets);
     }
 
     public TypeTicketDTO findByIdTypeTicket(int id) {
@@ -34,9 +34,9 @@ public class TypeTicketServices {
     public responseDTO save(TypeTicketDTO typeTicketDTO) {
         String normalizeName  = StringNormalizer.normalize(typeTicketDTO.getName());
 
-        List<TypeTicket> allTickets = typeTicketData.findAll();
+        List<TypeTicket> allTypeTickets = typeTicketData.findAll();
 
-        boolean exists = allTickets.stream()
+        boolean exists = allTypeTickets.stream()
             .map(t -> StringNormalizer.normalize(t.getName()))
             .anyMatch(name -> name.equals(normalizeName));
 

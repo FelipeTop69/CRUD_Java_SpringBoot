@@ -15,7 +15,7 @@ public class OrganizerMapper {
         return new Organizer(dto.getId(),dto.getName(), dto.getPhone());
     }
 
-    public static List<OrganizerDTO> toDTOList(List<Organizer> categories) {
-        return categories.stream().map(OrganizerMapper::toDTO).collect(Collectors.toList());
+    public static List<OrganizerDTO> toDTOList(List<Organizer> organizers) {
+        return organizers.stream().map(OrganizerMapper::toDTO).collect(Collectors.toList());
     }
 }
