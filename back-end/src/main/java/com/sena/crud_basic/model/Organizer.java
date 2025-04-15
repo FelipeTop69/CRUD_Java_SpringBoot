@@ -31,11 +31,10 @@ public class Organizer {
     // Constructores
     public Organizer() {}
 
-    public Organizer(int id, String name, String phone, List<Event> events) {
+    public Organizer(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.events = events;
     }
 
     // Getters and Setters
