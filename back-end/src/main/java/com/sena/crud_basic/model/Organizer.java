@@ -1,6 +1,5 @@
 package com.sena.crud_basic.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import jakarta.persistence.OneToMany;
 
 @Entity(name = "organizer")
 public class Organizer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "org_id")
@@ -31,8 +29,7 @@ public class Organizer {
     private List<Event> events = new ArrayList<>();
 
     // Constructores
-    public Organizer() {
-    }
+    public Organizer() {}
 
     public Organizer(int id, String name, String phone, List<Event> events) {
         this.id = id;
@@ -42,6 +39,7 @@ public class Organizer {
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -50,6 +48,7 @@ public class Organizer {
         this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -58,6 +57,7 @@ public class Organizer {
         this.name = name;
     }
 
+    // phone
     public String getPhone() {
         return phone;
     }
@@ -66,6 +66,7 @@ public class Organizer {
         this.phone = phone;
     }
 
+    // events
     public List<Event> getEvents() {
         return events;
     }
@@ -73,5 +74,4 @@ public class Organizer {
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-
 }

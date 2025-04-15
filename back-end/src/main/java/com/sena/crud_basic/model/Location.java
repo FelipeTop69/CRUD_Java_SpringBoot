@@ -1,6 +1,5 @@
 package com.sena.crud_basic.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +13,10 @@ import jakarta.persistence.OneToMany;
 
 @Entity(name = "location")
 public class Location {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loc_id")
-    private int loc_id;
+    private int id;
 
     @Column(name = "loc_name", length = 30, nullable = false)
     private String name;
@@ -34,11 +32,10 @@ public class Location {
     private List<Event> events = new ArrayList<>();
 
     // Constructores
-    public Location() {
-    }
+    public Location() {}
 
-    public Location(int loc_id, String name, String address, int capacity, List<Event> events) {
-        this.loc_id = loc_id;
+    public Location(int id, String name, String address, int capacity, List<Event> events) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.capacity = capacity;
@@ -46,14 +43,16 @@ public class Location {
     }
 
     // Getters and Setters
-    public int getLoc_id() {
-        return loc_id;
+    // id
+    public int getId() {
+        return id;
     }
 
-    public void setLoc_id(int loc_id) {
-        this.loc_id = loc_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -62,6 +61,7 @@ public class Location {
         this.name = name;
     }
 
+    // address
     public String getAddress() {
         return address;
     }
@@ -70,6 +70,7 @@ public class Location {
         this.address = address;
     }
 
+    // capacity
     public int getCapacity() {
         return capacity;
     }
@@ -78,6 +79,7 @@ public class Location {
         this.capacity = capacity;
     }
 
+    // events
     public List<Event> getEvents() {
         return events;
     }

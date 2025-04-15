@@ -16,11 +16,10 @@ import jakarta.persistence.OneToMany;
 
 @Entity(name = "event")
 public class Event {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ev_id")
-    private int ev_id;
+    private int id;
 
     @Column(name = "ev_name", length = 30, nullable = false)
     private String name;
@@ -49,20 +48,17 @@ public class Event {
     private List<Ticket> tickets = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User_Event> userEvents = new ArrayList<>();
+    private List<Participant_Event> participantEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event_Sponsor> eventSponsors = new ArrayList<>();
 
     // Constructores
-    public Event() {
-    }
+    public Event() {}
 
-    
-
-    public Event(int ev_id, String name, String description, LocalDateTime date, Organizer organizer, Location location,
-            Category category, List<Ticket> tickets, List<User_Event> userEvents, List<Event_Sponsor> eventSponsors) {
-        this.ev_id = ev_id;
+    public Event(int id, String name, String description, LocalDateTime date, Organizer organizer, Location location,
+            Category category, List<Ticket> tickets, List<Participant_Event> participantEvents, List<Event_Sponsor> eventSponsors) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
@@ -70,21 +66,21 @@ public class Event {
         this.location = location;
         this.category = category;
         this.tickets = tickets;
-        this.userEvents = userEvents;
+        this.participantEvents = participantEvents;
         this.eventSponsors = eventSponsors;
     }
 
-
-
     //Getters and Setters
-    public int getEv_id() {
-        return ev_id;
+    // id
+    public int getId() {
+        return id;
     }
 
-    public void setEv_id(int ev_id) {
-        this.ev_id = ev_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -93,6 +89,7 @@ public class Event {
         this.name = name;
     }
 
+    // description
     public String getDescription() {
         return description;
     }
@@ -101,6 +98,7 @@ public class Event {
         this.description = description;
     }
 
+    // date
     public LocalDateTime getDate() {
         return date;
     }
@@ -109,6 +107,7 @@ public class Event {
         this.date = date;
     }
 
+    // organizer
     public Organizer getOrganizer() {
         return organizer;
     }
@@ -117,6 +116,7 @@ public class Event {
         this.organizer = organizer;
     }
 
+    // location
     public Location getLocation() {
         return location;
     }
@@ -125,6 +125,7 @@ public class Event {
         this.location = location;
     }
 
+    // category
     public Category getCategory() {
         return category;
     }
@@ -133,6 +134,7 @@ public class Event {
         this.category = category;
     }
 
+    // tickets
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -141,14 +143,16 @@ public class Event {
         this.tickets = tickets;
     }
 
-    public List<User_Event> getUserEvents() {
-        return userEvents;
+    // participantEvents
+    public List<Participant_Event> getparticipantEvents() {
+        return participantEvents;
     }
 
-    public void setUserEvents(List<User_Event> userEvents) {
-        this.userEvents = userEvents;
+    public void setparticipantEvents(List<Participant_Event> participantEvents) {
+        this.participantEvents = participantEvents;
     }
 
+    // eventSponsors
     public List<Event_Sponsor> getEventSponsors() {
         return eventSponsors;
     }
@@ -156,8 +160,4 @@ public class Event {
     public void setEventSponsors(List<Event_Sponsor> eventSponsors) {
         this.eventSponsors = eventSponsors;
     }
-
-    
-
-
 }

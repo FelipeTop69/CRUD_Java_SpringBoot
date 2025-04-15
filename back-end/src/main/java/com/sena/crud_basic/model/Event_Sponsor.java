@@ -1,6 +1,5 @@
 package com.sena.crud_basic.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,10 +10,9 @@ import jakarta.persistence.ManyToOne;
 
 @Entity(name = "event_sponsor")
 public class Event_Sponsor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ev_es_id")
+    @Column(name = "ev_sp_id")
     private int id;
 
     // Claves Foraneas
@@ -27,8 +25,7 @@ public class Event_Sponsor {
     private Sponsor sponsor;
 
     // Constructores
-    public Event_Sponsor() {
-    }
+    public Event_Sponsor() {}
 
     public Event_Sponsor(int id, Event event, Sponsor sponsor) {
         this.id = id;
@@ -37,6 +34,7 @@ public class Event_Sponsor {
     }
 
     // Getters adn Setters
+    // id
     public int getId() {
         return id;
     }
@@ -45,6 +43,7 @@ public class Event_Sponsor {
         this.id = id;
     }
 
+    // event
     public Event getEvent() {
         return event;
     }
@@ -53,6 +52,7 @@ public class Event_Sponsor {
         this.event = event;
     }
 
+    // sponsor
     public Sponsor getSponsor() {
         return sponsor;
     }
@@ -60,6 +60,4 @@ public class Event_Sponsor {
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
-
-    
 }

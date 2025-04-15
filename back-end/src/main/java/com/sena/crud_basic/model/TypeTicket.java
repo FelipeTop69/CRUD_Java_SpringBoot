@@ -13,7 +13,6 @@ import jakarta.persistence.OneToMany;
 
 @Entity(name = "typeTicket")
 public class TypeTicket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tyt_id")
@@ -41,6 +40,7 @@ public class TypeTicket {
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -49,6 +49,7 @@ public class TypeTicket {
         this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -57,6 +58,7 @@ public class TypeTicket {
         this.name = name;
     }
 
+    // description
     public String getDescription() {
         return description;
     }
@@ -65,6 +67,7 @@ public class TypeTicket {
         this.description = description;
     }
 
+    // tickets
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -72,6 +75,4 @@ public class TypeTicket {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
-    
 }

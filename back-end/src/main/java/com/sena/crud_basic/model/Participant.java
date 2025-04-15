@@ -3,6 +3,7 @@ package com.sena.crud_basic.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,36 +13,36 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User {
-
+@Table(name = "participant")
+public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "us_id")
+    @Column(name = "pa_id")
     private int id;
 
-    @Column(name = "us_name", length = 30, nullable = false)
+    @Column(name = "pa_name", length = 30, nullable = false)
     private String name;
 
-    @Column(name = "us_phone", length = 10, nullable = false)
+    @Column(name = "pa_phone", length = 10, nullable = false)
     private String phone;
 
     // PNI
-    @OneToMany(mappedBy = "user")
-    private List<User_Event> userEvents = new ArrayList<>();
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant_Event> participantEvents = new ArrayList<>();
 
     // Constructores
-    public User() {
+    public Participant() {
     }
 
-    public User(int id, String name, String phone, List<User_Event> userEvents) {
+    public Participant(int id, String name, String phone, List<Participant_Event> participantEvents) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.userEvents = userEvents;
+        this.participantEvents = participantEvents;
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -50,6 +51,7 @@ public class User {
         this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -58,6 +60,7 @@ public class User {
         this.name = name;
     }
 
+    // phone
     public String getPhone() {
         return phone;
     }
@@ -66,13 +69,12 @@ public class User {
         this.phone = phone;
     }
 
-    public List<User_Event> getUserEvents() {
-        return userEvents;
+    // participantEvents
+    public List<Participant_Event> getParticipantEvents() {
+        return participantEvents;
     }
 
-    public void setUserEvents(List<User_Event> userEvents) {
-        this.userEvents = userEvents;
+    public void setParticipantEvents(List<Participant_Event> participantEvents) {
+        this.participantEvents = participantEvents;
     }
-
-    
 }

@@ -8,12 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity(name = "user_event")
-public class User_Event {
-
+@Entity(name = "participant_event")
+public class Participant_Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "us_ev_id")
+    @Column(name = "pa_ev_id")
     private int id;
 
     // Claves Foraneas
@@ -22,20 +21,21 @@ public class User_Event {
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "us_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "pa_id", nullable = false)
+    private Participant participant;
 
     // Constructores
-    public User_Event() {
+    public Participant_Event() {
     }
 
-    public User_Event(int id, Event event, User user) {
+    public Participant_Event(int id, Event event, Participant participant) {
         this.id = id;
         this.event = event;
-        this.user = user;
+        this.participant = participant;
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -44,6 +44,7 @@ public class User_Event {
         this.id = id;
     }
 
+    // event
     public Event getEvent() {
         return event;
     }
@@ -52,11 +53,12 @@ public class User_Event {
         this.event = event;
     }
 
-    public User getUser() {
-        return user;
+    // participant
+    public Participant getParticipant() {
+        return participant;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }    
 }

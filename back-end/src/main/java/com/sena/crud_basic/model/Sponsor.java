@@ -13,7 +13,6 @@ import jakarta.persistence.OneToMany;
 
 @Entity(name = "sponsor")
 public class Sponsor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sp_id")
@@ -41,6 +40,7 @@ public class Sponsor {
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -49,6 +49,7 @@ public class Sponsor {
         this.id = id;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -57,6 +58,7 @@ public class Sponsor {
         this.name = name;
     }
 
+    // phone
     public String getPhone() {
         return phone;
     }
@@ -65,6 +67,7 @@ public class Sponsor {
         this.phone = phone;
     }
 
+    // event_sponsor
     public List<Event_Sponsor> getEventSponsors() {
         return eventSponsors;
     }
@@ -72,6 +75,4 @@ public class Sponsor {
     public void setEventSponsors(List<Event_Sponsor> eventSponsors) {
         this.eventSponsors = eventSponsors;
     }
-
-    
 }

@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity(name = "ticket")
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tick_id")
@@ -46,6 +45,7 @@ public class Ticket {
     }
 
     // Getters and Setters
+    // id
     public int getId() {
         return id;
     }
@@ -54,6 +54,7 @@ public class Ticket {
         this.id = id;
     }
 
+    // price
     public BigDecimal getPrice() {
         return price;
     }
@@ -62,6 +63,7 @@ public class Ticket {
         this.price = price;
     }
 
+    // availableQuantity
     public int getAvailableQuantity() {
         return availableQuantity;
     }
@@ -70,6 +72,7 @@ public class Ticket {
         this.availableQuantity = availableQuantity;
     }
 
+    // event
     public Event getEvent() {
         return event;
     }
@@ -78,6 +81,7 @@ public class Ticket {
         this.event = event;
     }
 
+    // typeTicket
     public TypeTicket getTypeTicket() {
         return typeTicket;
     }
@@ -85,7 +89,4 @@ public class Ticket {
     public void setTypeTicket(TypeTicket typeTicket) {
         this.typeTicket = typeTicket;
     }
-
-    
-    
 }

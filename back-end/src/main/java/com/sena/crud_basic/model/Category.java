@@ -41,10 +41,16 @@ public class Category {
         }
 
         // Getters and Setters
+        // id
         public int getId() {
                 return id;
         }
 
+        public void setId(int id) {
+                this.id = id;
+        }
+
+        // name
         public String getName() {
                 return name;
         }
@@ -53,6 +59,7 @@ public class Category {
                 this.name = name;
         }
 
+        // description
         public String getDescription() {
                 return description;
         }
@@ -61,6 +68,7 @@ public class Category {
                 this.description = description;
         }
 
+        // events
         public List<Event> getEvents() {
                 return events;
         }
