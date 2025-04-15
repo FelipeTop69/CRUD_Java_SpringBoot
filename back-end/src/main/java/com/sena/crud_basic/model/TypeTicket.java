@@ -11,7 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity(name = "typeTicket")
+@Entity(name = "type_ticket")
 public class TypeTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,10 @@ public class TypeTicket {
     public TypeTicket() {
     }
 
-    public TypeTicket(int id, String name, String description, List<Ticket> tickets) {
+    public TypeTicket(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.tickets = tickets;
     }
 
     // Getters and Setters

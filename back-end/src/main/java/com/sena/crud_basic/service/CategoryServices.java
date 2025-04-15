@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.sena.crud_basic.DTO_Response.responseDTO;
 import com.sena.crud_basic.interfaces.ICategory;
 import com.sena.crud_basic.mapper.CategoryMapper;
 import com.sena.crud_basic.model.Category;
+import com.sena.crud_basic.utils.StringNormalizer;
 
 @Service
 public class CategoryServices {
@@ -20,24 +22,27 @@ public class CategoryServices {
     private ICategory categoryData;
 
     public List<CategoryDTO> findAllCategory() {
-        List<Category> categories = categoryData.findAll();
+        List<Category> categories = categoryData.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return CategoryMapper.toDTOList(categories);
     }
 
     public CategoryDTO findByIdCategory(int id) {
         return categoryData.findById(id)
                 .map(CategoryMapper::toDTO)
-                .orElseThrow(() -> new NoSuchElementException("Categoria con ID " + id + " no encontrada"));
+                .orElseThrow(() -> new NoSuchElementException("Category con ID " + id + " no encontrada"));
     }
 
     public responseDTO save(CategoryDTO categoryDTO) {
-        // Convertir el nombre a minusculas y quitar los espacios 
-        String convertName = categoryDTO.getName().replaceAll("\\s", "");
+        String normalizeName  = StringNormalizer.normalize(categoryDTO.getName());
 
-        // Verificar si ya existe la categoria
-        // Version New
-        if (categoryData.existsByNameIgnoreCase(convertName)) {
-            throw new IllegalArgumentException("Ya existe una categoria con el nombre " + categoryDTO.getName());
+        List<Category> allCategories = categoryData.findAll();
+
+        boolean exists = allCategories.stream()
+            .map(t -> StringNormalizer.normalize(t.getName()))
+            .anyMatch(name -> name.equals(normalizeName));
+
+        if (exists) {
+            throw new IllegalArgumentException("Ya existe una Category con el nombre " + categoryDTO.getName());
         }
 
         Category category = CategoryMapper.toEntity(categoryDTO);
@@ -45,14 +50,14 @@ public class CategoryServices {
         CategoryDTO savedCategoryDTO = CategoryMapper.toDTO(savedCategory);
         return new responseDTO(
             HttpStatus.CREATED, 
-            "Categoria creada con exito",
+            "Category creada con exito",
             savedCategoryDTO
         );
     }
 
     public responseDTO update(CategoryDTO categoryDTO) {
         Category category = categoryData.findById(categoryDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Categoria con ID " + categoryDTO.getId() + " no encontrada"));
+            .orElseThrow(() -> new NoSuchElementException("Category con ID " + categoryDTO.getId() + " no encontrada"));
 
         category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());
@@ -60,15 +65,15 @@ public class CategoryServices {
         Category updatedCategory = categoryData.save(category);
         CategoryDTO updatedCategoryDTO = CategoryMapper.toDTO(updatedCategory);
 
-        return new responseDTO(HttpStatus.OK, "Categoria actualizada con exito", updatedCategoryDTO);
+        return new responseDTO(HttpStatus.OK, "Category actualizada con exito", updatedCategoryDTO);
     }
 
     public responseDTO delete(int id) {
         Category category = categoryData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Categoria con ID " + id + " no encontrada"));
+            .orElseThrow(() -> new NoSuchElementException("Category con ID " + id + " no encontrada"));
 
         categoryData.delete(category);
-        return new responseDTO(HttpStatus.OK, "Categoria con id " + id + " eliminada con éxito");
+        return new responseDTO(HttpStatus.OK, "Category con id " + id + " eliminada con éxito");
     }
 }
 
@@ -96,6 +101,13 @@ public class CategoryServices {
 // }
 
 // Version Old
+// 01
 // if (categoryData.existsByName(categoryDTO.getName())) {
-//     throw new IllegalArgumentException("Ya existe una categoria con el nombre " + categoryDTO.getName());
+//     throw new IllegalArgumentException("Ya existe una category con el nombre " + categoryDTO.getName());
+// }
+// 02
+// String convertName = categoryDTO.getName().replaceAll("\\s", "");
+
+// if (categoryData.existsByNameIgnoreCase(convertName)) {
+//     throw new IllegalArgumentException("Ya existe una category con el nombre " + categoryDTO.getName());
 // }

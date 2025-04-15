@@ -15,11 +15,11 @@ public interface ICategory extends JpaRepository<Category, Integer>{
      * DELETE
      * por defecto
      */
-
-        // Version New
-        boolean existsByNameIgnoreCase(String name);
 }
 
 // Version Old
+// 01
 // @Query("SELECT COUNT(c) > 0 FROM category c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(?1, ' ', ''))")
 // boolean existsByName(String name);
+// 02
+// boolean existsByNameIgnoreCase(String name);

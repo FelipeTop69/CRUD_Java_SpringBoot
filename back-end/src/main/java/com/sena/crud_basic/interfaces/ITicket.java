@@ -12,9 +12,9 @@ import com.sena.crud_basic.model.Ticket;
 
 @Repository
 public interface ITicket extends JpaRepository<Ticket, Integer> {
-    @Query("SELECT t FROM ticket t JOIN FETCH t.event JOIN FETCH t.typeTicket")
+    @Query("SELECT t FROM ticket t JOIN FETCH t.event JOIN FETCH t.typeTicket ORDER BY t.id")
     List<Ticket> findAllTicketsJoin();
 
-    @Query("SELECT t FROM ticket t JOIN FETCH t.typeTicket JOIN FETCH t.event WHERE t.id = :id")
+    @Query("SELECT t FROM ticket t JOIN FETCH t.typeTicket JOIN FETCH t.event WHERE t.id = :id ORDER BY t.id")
     Optional<Ticket> findTicketByIdJoin(@Param("id") int id);
 }
