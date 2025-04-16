@@ -44,6 +44,12 @@ public class EventServices {
             throw new IllegalArgumentException("Ya existe una Event con el nombre " + eventDTO.getName());
         }
 
+        boolean existsByDateAndLocation = eventData.existsByDateAndLocation(eventDTO.getDate(), eventDTO.getLocationId());
+
+        if (existsByDateAndLocation) {
+            throw new IllegalArgumentException("Ya existe un Event en esa fecha y lugar.");
+        }
+
         Event event = EventMapper.toEntity(eventDTO);
         Event savedEvent = eventData.save(event);
         EventDTO savedEventDTO = EventMapper.toDTO(savedEvent);
