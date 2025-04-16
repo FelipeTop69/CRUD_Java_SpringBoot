@@ -47,8 +47,10 @@ public class TicketServices {
 
         ticket.setPrice(ticketDTO.getPrice());
         ticket.setAvailableQuantity(ticketDTO.getAvailableQuantity());
-        ticket.getEvent().setId(ticketDTO.getEventId());
-        ticket.getTypeTicket().setId(ticketDTO.getTypeTicketId());
+
+        Ticket updateTicket = TicketMapper.toEntity(ticketDTO);
+        ticket.setEvent(updateTicket.getEvent());
+        ticket.setTypeTicket(updateTicket.getTypeTicket());
 
         Ticket updatedTicket = ticketData.save(ticket);
         TicketDTO updatedTicketDTO = TicketMapper.toDTO(updatedTicket);

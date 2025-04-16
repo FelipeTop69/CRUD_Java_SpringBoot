@@ -57,7 +57,7 @@ public class Event {
     public Event() {}
 
     public Event(int id, String name, String description, LocalDateTime date, Organizer organizer, Location location,
-            Category category, List<Ticket> tickets, List<Participant_Event> participantEvents, List<Event_Sponsor> eventSponsors) {
+            Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -65,9 +65,6 @@ public class Event {
         this.organizer = organizer;
         this.location = location;
         this.category = category;
-        this.tickets = tickets;
-        this.participantEvents = participantEvents;
-        this.eventSponsors = eventSponsors;
     }
 
     //Getters and Setters
