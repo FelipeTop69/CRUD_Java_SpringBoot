@@ -8,7 +8,7 @@ import com.sena.crud_basic.model.Sponsor;
 
 
 public class SponsorMapper {
-        public static SponsorDTO toDTO(Sponsor sponsor) {
+    public static SponsorDTO toDTO(Sponsor sponsor) {
         return new SponsorDTO(sponsor.getId(), sponsor.getName(), sponsor.getPhone());
     }
 

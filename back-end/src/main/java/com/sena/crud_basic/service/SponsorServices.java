@@ -21,7 +21,7 @@ public class SponsorServices {
     @Autowired
     private ISponsor sponsorData;
 
-        public List<SponsorDTO> findAllSponsor() {
+    public List<SponsorDTO> findAllSponsor() {
         List<Sponsor> sponsors = sponsorData.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return SponsorMapper.toDTOList(sponsors);
     }
@@ -40,13 +40,13 @@ public class SponsorServices {
         );
         
         boolean exists = sponsorData.findAll().stream()
-            .anyMatch(organizer -> {
-                List<String> normalizedOrganizerFields = Arrays.asList(
-                    StringNormalizer.normalize(organizer.getName()),
-                    StringNormalizer.normalize(organizer.getPhone())
+            .anyMatch(sponsor -> {
+                List<String> normalizedSponsorFields = Arrays.asList(
+                    StringNormalizer.normalize(sponsor.getName()),
+                    StringNormalizer.normalize(sponsor.getPhone())
                 );
 
-                return normalizedOrganizerFields.stream()
+                return normalizedSponsorFields.stream()
                     .anyMatch(normalizedInputs::contains);
             });
         

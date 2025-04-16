@@ -34,11 +34,10 @@ public class Participant {
     public Participant() {
     }
 
-    public Participant(int id, String name, String phone, List<Participant_Event> participantEvents) {
+    public Participant(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.participantEvents = participantEvents;
     }
 
     // Getters and Setters
