@@ -32,11 +32,10 @@ public class Sponsor {
     public Sponsor() {
     }
 
-    public Sponsor(int id, String name, String phone, List<Event_Sponsor> eventSponsors) {
+    public Sponsor(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.eventSponsors = eventSponsors;
     }
 
     // Getters and Setters
