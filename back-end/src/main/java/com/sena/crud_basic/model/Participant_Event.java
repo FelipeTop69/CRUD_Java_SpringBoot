@@ -28,10 +28,10 @@ public class Participant_Event {
     public Participant_Event() {
     }
 
-    public Participant_Event(int id, Event event, Participant participant) {
+    public Participant_Event(int id, Participant participant, Event event) {
         this.id = id;
-        this.event = event;
         this.participant = participant;
+        this.event = event;
     }
 
     // Getters and Setters
