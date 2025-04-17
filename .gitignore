@@ -1,4 +1,9 @@
+# Configuración de Visual Studio Code
+**/.vscode/
 .vscode/
+back-end/.vscode/
+front-end/.vscode/
+
 model/Entidades_Java.txt
 model/Logica_Entidad.txt
 
@@ -6,7 +11,7 @@ model/Logica_Entidad.txt
 back-end/HELP.md
 
 # Ignorar directorios de compilación y salidas
-back-end/target/
+back-end/target/    
 back-end/build/
 
 # Excepciones (permitir archivos dentro de carpetas ignoradas)
@@ -37,6 +42,3 @@ back-end/nbbuild/
 back-end/dist/
 back-end/nbdist/
 back-end/.nb-gradle/
-
-# Configuración de Visual Studio Code
-back-end/.vscode/
