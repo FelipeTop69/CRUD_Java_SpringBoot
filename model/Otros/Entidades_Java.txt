@@ -1,0 +1,262 @@
+Entida Category:
+package com.sena.crud_basic.model;
+@Entity(name = "category")
+public class Category {
+    // Para indicar que el atributo sera la clave primaria
+    @Id
+    // Para indicar que sera autoincrement
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Para indicar que sera una columna en la bd
+    @Column(name = "cat_id")
+    private int id;
+
+    @Column(name = "cat_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "cat_description", columnDefinition = "TEXT")
+    private String description;
+
+    // PNI - Propiedade de Navegacion Inversa
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>(); 
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Event:
+package com.sena.crud_basic.model;
+@Entity(name = "event")
+public class Event {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ev_id")
+    private int id;
+
+    @Column(name = "ev_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "ev_description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "ev_date", nullable = false)
+    private LocalDateTime date;
+
+    // Claves Foraneas
+    @ManyToOne
+    @JoinColumn(name = "org_id", nullable = false)
+    private Organizer organizer;
+
+    @ManyToOne
+    @JoinColumn(name = "loc_id", nullable = false)
+    private Location location;
+
+    @ManyToOne
+    @JoinColumn(name = "cat_id", nullable = false)
+    private Category category;
+
+    // PNI
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant_Event> participantEvents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event_Sponsor> eventSponsors = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Event_Sponsor:
+package com.sena.crud_basic.model;
+@Entity(name = "event_sponsor")
+public class Event_Sponsor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ev_sp_id")
+    private int id;
+
+    // Claves Foraneas
+    @ManyToOne
+    @JoinColumn(name = "ev_id", nullable = false)
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "sp_id", nullable = false)
+    private Sponsor sponsor;
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Location:
+package com.sena.crud_basic.model;
+@Entity(name = "location")
+public class Location {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "loc_id")
+    private int id;
+
+    @Column(name = "loc_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "loc_address", length = 50, nullable = false)
+    private String address;
+
+    @Column(name = "loc_capacity", nullable = false)
+    private int capacity;
+
+    // PNI
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Organizer:
+package com.sena.crud_basic.model;
+@Entity(name = "organizer")
+public class Organizer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "org_id")
+    private int id;
+
+    @Column(name = "org_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "org_phone", length = 10, nullable = false)
+    private String phone;
+
+    // PNI
+    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Participant:
+package com.sena.crud_basic.model;
+@Entity
+@Table(name = "participant")
+public class Participant {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pa_id")
+    private int id;
+
+    @Column(name = "pa_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "pa_phone", length = 10, nullable = false)
+    private String phone;
+
+    // PNI
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant_Event> participantEvents = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Participant_Event:
+package com.sena.crud_basic.model;
+@Entity(name = "participant_event")
+public class Participant_Event {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pa_ev_id")
+    private int id;
+
+    // Claves Foraneas
+    @ManyToOne
+    @JoinColumn(name = "ev_id", nullable = false)
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "pa_id", nullable = false)
+    private Participant participant;
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Sponsor:
+package com.sena.crud_basic.model;
+@Entity(name = "sponsor")
+public class Sponsor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sp_id")
+    private int id;
+
+    @Column(name = "sp_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "sp_phone", length = 10, nullable = false)
+    private String phone;
+
+    // PNI
+    @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event_Sponsor> eventSponsors = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
+
+Entida Ticket:
+package com.sena.crud_basic.model;
+@Entity(name = "ticket")
+public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tick_id")
+    private int id;
+
+    @Column(name = "tick_price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "tick_available_quantity", nullable = false)
+    private int availableQuantity;
+
+    // Claves Foraneas
+    @ManyToOne
+    @JoinColumn(name = "id_event", nullable = false)
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "tyt_id", nullable = false)
+    private TypeTicket typeTicket;
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+
+}
+
+Entida TypeTicket:
+package com.sena.crud_basic.model;
+@Entity(name = "typeTicket")
+public class TypeTicket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tyt_id")
+    private int id;
+
+    @Column(name = "tyt_name", length = 30, nullable = false)
+    private String name;
+
+    @Column(name = "tyt_description", columnDefinition = "TEXT", nullable = true)
+    private String description;
+
+    // PNI
+    @OneToMany(mappedBy = "typeTicket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
+
+    Sus Constructores (Vacio y Con Parametros)...
+    Sus Getters And Setters...
+}
