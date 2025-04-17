@@ -98,8 +98,8 @@
                 <p>Category</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="04_location.html">
+            <li class="nav-item active">
+              <a href="#">
                 <i class="fas fa-table"></i>
                 <p>Location</p>
               </a>
@@ -116,8 +116,8 @@
                 <p>Ticket</p>
               </a>
             </li>
-            <li class="nav-item active">
-              <a href="#">
+            <li class="nav-item">
+              <a href="07_event.html">
                 <i class="fas fa-table"></i>
                 <p>Event</p>
               </a>
@@ -183,7 +183,7 @@
                     <img src="../assets/img/img-entity-table.png" alt="..." class="avatar-img rounded-circle" />
                   </div>
                   <span class="profile-username">
-                    <h5 class="mb-0">Event</h5>
+                    <h5 class="mb-0">Location</h5>
                   </span>
                 </a>
               </li>
@@ -196,17 +196,17 @@
       <div class="container">
         <div class="page-inner">
           <div class="page-header">
-            <h3 class="fw-bold mb-3">Tabla para Event</h3>
+            <h3 class="fw-bold mb-3">Tabla para Location</h3>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
                   <div class="d-flex align-items-center">
-                    <h4 class="card-title">Events</h4>
+                    <h4 class="card-title">Locations</h4>
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#modalRegistro">
                       <i class="fa fa-plus"></i>
-                      Add Event
+                      Add Location
                     </button>
                   </div>
                 </div>
@@ -229,39 +229,12 @@
                                 <label for="name" class="form-label">Name</label>
                                   <input type="text" name="name" id="name" class="form-control mb-3" placeholder="Digite el Nombre" required>
 
-                                <label for="description" class="form-label">Description</label>
-                                  <input type="text" name="description" id="description" class="form-control mb-3" placeholder="Digite la Descripcion" required>
-                                
-                                <label for="date" class="form-label">Fecha y Hora del Evento</label>
-                                  <input type="datetime-local" name="date" id="date" class="form-control mb-3" required>
-                                
-                                <!-- <label for="availableQuantity" class="form-label mb-3">Quantity</label>
-                                  <input type="number" name="availableQuantity" id="availableQuantity" class="form-control mb-3" placeholder="Digite la Cantidad" required
-                                    min="1" max="10000" step="1" title="Solo números enteros entre 1 y 10.000"> -->
-                                
-                                <label for="organizerId" class="form-label">Organizer</label>
-                                  <select class="form-select mb-3" id="organizerId" name="organizerId" required>
-                                  
-                                  </select>
-                                  <div class="invalid-feedback">
-                                      Selecciona Organizer
-                                  </div>
+                                <label for="address" class="form-label">Address</label>
+                                  <input type="text" name="address" id="address" class="form-control mb-3" placeholder="Digite la Direccion" required>
 
-                                <label for="locationId" class="form-label">Location</label>
-                                  <select class="form-select mb-3" id="locationId" name="locationId" required>
-                                    
-                                  </select>
-                                  <div class="invalid-feedback">
-                                      Selecciona Location
-                                  </div>
-                                
-                                <label for="categoryId" class="form-label">Category</label>
-                                  <select class="form-select mb-3" id="categoryId" name="categoryId" required>
-
-                                  </select>
-                                  <div class="invalid-feedback">
-                                      Selecciona Category
-                                  </div>
+                                <label for="capacity" class="form-label mb-3">Capacity</label>
+                                  <input type="number" name="capacity" id="capacity" class="form-control mb-3" placeholder="Digite la Capacidad" required
+                                    min="1" max="100000" step="1" title="Solo números enteros entre 1 y 100.000">
                             </div>
                             <br>
                             <div class="col-md-12 text-center mb-2">
@@ -303,23 +276,16 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div id="spinnerTabla" class="text-center my-4 d-none">
-                    <div class="spinner-border text-primary" role="status">
-                      <span class="visually-hidden">Cargando...</span>
-                    </div>
-                  </div> -->
                   <!--End Modal Actualizar -->
+
                   <div class="table-responsive">
                     <table id="tablaRespuesta" class="display table table-striped table-hover">
                       <thead>
                         <tr>
                           <th>N°</th>
                           <th>Name</th>
-                          <th>Description</th>
-                          <th>Date</th>
-                          <th>Organizer</th>
-                          <th>Location</th>
-                          <th>Category</th>
+                          <th>Capaity</th>
+                          <th>Address</th>
                           <th style="width: 10%">Action</th>
                         </tr>
                       </thead>
@@ -327,23 +293,15 @@
                         <tr>
                           <th>N°</th>
                           <th>Name</th>
-                          <th>Description</th>
-                          <th>Date</th>
-                          <th>Organizer</th>
-                          <th>Location</th>
-                          <th>Category</th>
+                          <th>Address</th>
+                          <th>Capaity</th>
                           <th>Action</th>
                         </tr>
                       </tfoot>
                       <tbody id="cuerpoTablaRespuesta">
-                        
+
                       </tbody>
                     </table>
-                    <!-- <div id="spinnerTabla" class="position-absolute top-100 start-50 translate-middle d-none">
-                      <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -372,9 +330,9 @@
 <script src="../assets/js/setting-demo2.js"></script>
 
 <!-- CRUD -->
-<script type="module" src="../assets/js/CRUD/eventMain.js"></script>
+<script type="module" src="../assets/js/CRUD/locationMain.js"></script>
 <!-- <script src="../assets/js/scriptPrueba.js"></script> -->
-<!-- <script src="../assets/js/CRUD/api/eventAPI.js"></script> -->
+<!-- <script src="../assets/js/CRUD/api/locationAPI.js"></script> -->
 
 <script>
   // $(document).ready(function () {
