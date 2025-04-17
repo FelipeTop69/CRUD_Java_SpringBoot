@@ -15,10 +15,11 @@ export async function listar() {
     }
 
     const tbody = document.querySelector(`${tablaId} tbody`);
+    let numero = 1;
     data.forEach(item => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>#${item.id}</td>
+            <td>#${numero++}</td>
             <td>${item.name}</td>
             <td>${item.phone}</td>
             <td>
@@ -85,7 +86,7 @@ export async function listar() {
             const name = this.getAttribute("data-name");
 
             Swal.fire({
-                title: "¿Estás seguro?",
+                title: "¿Estás Segur@ de la Eliminación?",
                 text: `Organizer: ${name} (ID: ${id})`,
                 icon: "warning",
                 showCancelButton: true,

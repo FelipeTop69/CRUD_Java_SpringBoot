@@ -223,12 +223,31 @@
                         <div class="modal-body">
                           <form id="formularioRegistro" class="row needs-validation">
                             <div class="col-md-12">
-                                <label for="name" class="form-label">Name</label>
-                                  <input type="text" name="name" id="name" class="form-control mb-3" placeholder="Digite el Nombre" required>
+                                <label for="price" class="form-label">Price</label>
+                                  <input type="number" name="price" id="price" class="form-control mb-3" placeholder="Digite el Precio" required
+                                    step="0.01" min="0" max="2000000" pattern="^\d+(\.\d{1,2})?$" title="Solo números. Hasta 2 decimales. Ej: 2500.50">
+                                
+                                <label for="availableQuantity" class="form-label mb-3">Quantity</label>
+                                  <input type="number" name="availableQuantity" id="availableQuantity" class="form-control mb-3" placeholder="Digite la Cantidad" required
+                                    min="1" max="10000" step="1" title="Solo números enteros entre 1 y 10.000">
+                                
+                                <label for="typeTicketId" class="form-label">Type Ticket</label>
+                                  <select class="form-select mb-3" id="typeTicketId" name="typeTicketId" required>
+                                      <!-- <option selected disabled value="">Elije...</option>
+                                      <option value="1">1</option> -->
+                                  </select>
+                                  <div class="invalid-feedback">
+                                      Selecciona el Tipo de Ticket
+                                  </div>
 
-                                <label for="phone" class="form-label">Phone</label>
-                                  <input type="text" name="phone" id="phone" class="form-control mb-3" placeholder="Digite el Numero de Contacto" required 
-                                      pattern="[0-9]{1,15}" maxlength="10" title="Solo numeros, máximo 10 digitos">
+                                <label for="eventId" class="form-label">Event</label>
+                                  <select class="form-select mb-3" id="eventId" name="eventId" required>
+                                      <!-- <option selected disabled value="">Elije...</option>
+                                      <option value="1">1</option> -->
+                                  </select>
+                                  <div class="invalid-feedback">
+                                      Selecciona el Evento
+                                  </div>
                             </div>
                             <br>
                             <div class="col-md-12 text-center mb-2">
