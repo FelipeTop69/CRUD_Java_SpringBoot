@@ -24,7 +24,7 @@ export async function listar() {
             tr.innerHTML = `
                 <td>#${numero++}</td>
                 <td>${item.participantName}</td>
-                <td class="big-text-columna" title="${item.eventName}">${item.eventName}</td>
+                <td>${item.eventName}</td>
                 <td>
                     <div class="form-button-action">
                         <button type="button" class="btnActualizar btn btn-link btn-primary border border-2 border-danger" title="Actualizar Registro"

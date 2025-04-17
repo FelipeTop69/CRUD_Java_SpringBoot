@@ -87,7 +87,7 @@ export async function listar() {
             Swal.fire({
                 icon: "warning",
                 title: "¿Estás Segur@ de la Eliminación?",
-                text: `Name: ${name}`,
+                text: `Participant: ${name}`,
                 showCancelButton: true,
                 confirmButtonText: "Confirmar",
                 cancelButtonText: "Cancelar",

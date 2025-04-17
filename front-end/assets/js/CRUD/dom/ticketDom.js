@@ -78,7 +78,7 @@ export async function listar() {
             Swal.fire({
                 icon: "warning",
                 title: "¿Estás Segur@ de la Eliminación?",
-                text: `Precio: ${price}`,
+                text: `Price: ${price}`,
                 showCancelButton: true,
                 confirmButtonText: "Confirmar",
                 cancelButtonText: "Cancelar",
@@ -132,7 +132,7 @@ async function  ejecutarFormularioActualizar(id) {
     try {
         const info = await getById(id);
         // console.log(`Info: ${info.id} - ${info.price} - ${info.availableQuantity} - ${info.eventId} - ${info.eventName} - ${info.typeTicketId} - ${info.typeTicketName}`)
-
+        modalBody.innerHTML = "";
         modalBody.innerHTML = `
             <form id="formularioActualizar" class="row needs-validation">
                 <input type="hidden" name="id" value="${info.id}" />
@@ -219,13 +219,26 @@ function actualizar() {
 
 export async function cargarTypeTicketEnSelect(selectId) {
     const select = document.getElementById(selectId);
-    select.innerHTML = `<option selected disabled value="">Elije...</option>`;
+    
+    // Limpiar completamente el select
+    select.innerHTML = '';
+    
+    // Agregar opción por defecto
+    const defaultOption = document.createElement('option');
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    defaultOption.value = "";
+    defaultOption.textContent = "Elije...";
+    select.appendChild(defaultOption);
 
     try {
         const typeticket = await fetchAllTypeTicket();
 
         typeticket.forEach(type => {
-            select.innerHTML += `<option value="${type.id}">${type.name}</option>`;
+            const option = document.createElement('option');
+            option.value = type.id;
+            option.textContent = type.name;
+            select.appendChild(option);
         });
 
     } catch (error) {
@@ -239,13 +252,28 @@ export async function cargarTypeTicketEnSelect(selectId) {
 
 export async function cargarEventEnSelect(selectId) {
     const select = document.getElementById(selectId);
-    select.innerHTML = `<option selected disabled value="">Elije...</option>`;
+    
+    // Limpieza más efectiva
+    while (select.options.length > 0) {
+        select.remove(0);
+    }
+    
+    // Agregar opción por defecto
+    const defaultOption = document.createElement('option');
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    defaultOption.value = "";
+    defaultOption.textContent = "Elije...";
+    select.appendChild(defaultOption);
 
     try {
-        const event = await fetchAllEvent();
+        const events = await fetchAllEvent();
 
-        event.forEach(event => {
-            select.innerHTML += `<option value="${event.id}">${event.name}</option>`;
+        events.forEach(event => {
+            const option = document.createElement('option');
+            option.value = event.id;
+            option.textContent = event.name;
+            select.appendChild(option);
         });
 
     } catch (error) {

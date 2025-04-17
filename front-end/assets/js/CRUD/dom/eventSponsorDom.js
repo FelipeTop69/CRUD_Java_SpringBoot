@@ -1,13 +1,10 @@
-import {fetchAll, save, getById, update, kill, fetchAllOrganizer, fetchAllLocation, fetchAllCategory} from "../api/eventAPI.js"
+import {fetchAll, save, getById, update, kill, fetchAllEvent, fetchAllSponsor} from "../api/eventSponsorAPI.js"
 
 let dataTable; 
 
 export async function listar() {
-    // document.getElementById("spinnerTabla").classList.remove("d-none");
 
     try {
-        // await new Promise(resolve => setTimeout(resolve, 2000));
-
         const data = await fetchAll();
         // console.log(data);
 
@@ -24,19 +21,10 @@ export async function listar() {
         data.forEach(item => {
             const tr = document.createElement("tr");
 
-            const fechaFormateada = new Date(item.date).toLocaleString('es-CO', {
-                dateStyle: 'short',
-                timeStyle: 'short'
-            });
-
             tr.innerHTML = `
                 <td>#${numero++}</td>
-                <td>${item.name}</td>
-                <td class="big-text-columna" title="${item.description}">${item.description}</td>
-                <td title="${fechaFormateada}">${fechaFormateada}</td>
-                <td>${item.organizerName}</td>
-                <td class="big-text-columna" title="${item.locationName}">${item.locationName}</td>
-                <td>${item.categoryName}</td>
+                <td>${item.eventName}</td>
+                <td>${item.sponsorName}</td>
                 <td>
                     <div class="form-button-action">
                         <button type="button" class="btnActualizar btn btn-link btn-primary border border-2 border-danger" title="Actualizar Registro"
@@ -92,7 +80,6 @@ export async function listar() {
                 Swal.fire({
                     icon: "warning",
                     title: "¿Estás Segur@ de la Eliminación?",
-                    text: `Event: ${name}`,
                     showCancelButton: true,
                     confirmButtonText: "Confirmar",
                     cancelButtonText: "Cancelar",
@@ -113,8 +100,6 @@ export async function listar() {
             title: "Error al cargar los eventos",
             text: error.message || "Hubo un problema al obtener los datos"
         });
-    } finally {
-        // document.getElementById("spinnerTabla").classList.add("d-none");
     }
 }
 
@@ -127,11 +112,8 @@ export function ejecutarFormularioRegistro() {
 
         const form = {
             name: formulario.name.value,
-            description: formulario.description.value,
-            date: formulario.date.value + ":00",
-            organizerId: parseInt(formulario.organizerId.value),
-            locationId: parseInt(formulario.locationId.value),
-            categoryId: parseInt(formulario.categoryId.value)
+            eventId: parseInt(formulario.eventId.value),
+            sponsorId: parseInt(formulario.sponsorId.value),
         };
 
         try {
@@ -158,45 +140,26 @@ async function  ejecutarFormularioActualizar(id) {
 
     try {
         const info = await getById(id);
-        // console.log(`Info: ${info.id} - ${info.name} - ${info.availableQuantity} - ${info.eventId} - ${info.eventName} - ${info.organizerId} - ${info.organizerName}`)
-
-        let fechaFormateada = formatearFechaActualizar(info.date);
+        // console.log(`Info: ${info.id} - ${info.name} - ${info.availableQuantity} - ${info.eventId} - ${info.eventName} - ${info.sponsorId} - ${info.sponsorName}`)
 
         modalBody.innerHTML = `
             <form id="formularioActualizar" class="row needs-validation">
                 <input type="hidden" name="id" value="${info.id}" />
                 <div class="col-md-12">
-                    <label for="nameUpdate" class="form-label">Name</label>
-                        <input type="text" name="nameUpdate" id="nameUpdate" value="${info.name}" class="form-control mb-3" required>
-
-                    <label for="descriptionUpdate" class="form-label">Description</label>
-                        <input type="text" name="descriptionUpdate" id="descriptionUpdate" value="${info.description}" class="form-control mb-3" required>
-
-                    <label for="dateUpdate" class="form-label">Fecha y Hora del Evento</label>
-                        <input type="datetime-local" name="dateUpdate" id="dateUpdate" value="${fechaFormateada}" class="form-control mb-3" required>
-
-                    <label for="organizerUpdateId" class="form-label">Organizer</label>
-                        <select class="form-select mb-3" id="organizerUpdateId" name="organizerUpdateId" required>
+                    <label for="eventUpdateId" class="form-label">Event</label>
+                        <select class="form-select mb-3" id="eventUpdateId" name="eventUpdateId" required>
 
                         </select>
                         <div class="invalid-feedback">
-                            Selecciona Organizer
+                            Selecciona Event
                         </div>
 
-                    <label for="locationUpdateId" class="form-label">Location</label>
-                        <select class="form-select mb-3" id="locationUpdateId" name="locationUpdateId" required>
+                    <label for="sponsorUpdateId" class="form-label">Sponsor</label>
+                        <select class="form-select mb-3" id="sponsorUpdateId" name="sponsorUpdateId" required>
 
                         </select>
                         <div class="invalid-feedback">
-                            Selecciona Location
-                        </div>
-                            
-                    <label for="categoryUpdateId" class="form-label">Category</label>
-                        <select class="form-select mb-3" id="categoryUpdateId" name="categoryUpdateId" required>
-
-                        </select>
-                        <div class="invalid-feedback">
-                            Selecciona Category
+                            Selecciona Sponsor
                         </div>
                 </div>
                 <br>
@@ -205,17 +168,13 @@ async function  ejecutarFormularioActualizar(id) {
                 </div>
             </form>
         `;
-
-        await cargarOrganizerEnSelect("organizerUpdateId");
-        await cargarLocationEnSelect("locationUpdateId");
-        await cargarCategoryEnSelect("categoryUpdateId");
-        document.getElementById("organizerUpdateId").value = info.organizerId;
-        document.getElementById("locationUpdateId").value = info.locationId;
-        document.getElementById("categoryUpdateId").value = info.categoryId;
+        
+        await cargarEventEnSelect("eventUpdateId");
+        await cargarSponsorEnSelect("sponsorUpdateId");
+        document.getElementById("eventUpdateId").value = info.eventId;
+        document.getElementById("sponsorUpdateId").value = info.sponsorId;
 
         actualizar();
-
-
     } catch (error) {
         Swal.fire({
             icon: "warning",
@@ -223,18 +182,6 @@ async function  ejecutarFormularioActualizar(id) {
             text: error.message || "No se pudieron actualizar los datos DOM."
         });
     }
-}
-
-function formatearFechaActualizar(fechaString) {
-    const fecha = new Date(fechaString);
-
-    const anio = fecha.getFullYear();
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-    const dia = String(fecha.getDate()).padStart(2, '0');
-    const horas = String(fecha.getHours()).padStart(2, '0');
-    const minutos = String(fecha.getMinutes()).padStart(2, '0');
-
-    return `${anio}-${mes}-${dia}T${horas}:${minutos}`;
 }
 
 function actualizar() {
@@ -246,12 +193,8 @@ function actualizar() {
 
         const data = {
             id: parseInt(formActualizar.id.value),
-            name: formActualizar.nameUpdate.value,
-            description: formActualizar.descriptionUpdate.value,
-            date: formActualizar.dateUpdate.value + ":00",
-            organizerId: parseInt(formActualizar.organizerUpdateId.value),
-            locationId: parseInt(formActualizar.locationUpdateId.value),
-            categoryId: parseInt(formActualizar.categoryUpdateId.value)
+            eventId: parseInt(formActualizar.eventUpdateId.value),
+            sponsorId: parseInt(formActualizar.sponsorUpdateId.value),
         };
 
         try {
@@ -271,15 +214,35 @@ function actualizar() {
     });
 }
 
-export async function cargarOrganizerEnSelect(selectId) {
+export async function cargarEventEnSelect(selectId) {
     const select = document.getElementById(selectId);
     select.innerHTML = `<option selected disabled value="">Elije...</option>`;
 
     try {
-        const organizer = await fetchAllOrganizer();
+        const event = await fetchAllEvent();
 
-        organizer.forEach(organizer => {
-            select.innerHTML += `<option value="${organizer.id}">${organizer.name}</option>`;
+        event.forEach(event => {
+            select.innerHTML += `<option value="${event.id}">${event.name}</option>`;
+        });
+
+    } catch (error) {
+        Swal.fire({
+            icon: "warning",
+            title: "Atención",
+            text: error.message || "No se cargaron los Event datos DOM."
+        });
+    }
+}
+
+export async function cargarSponsorEnSelect(selectId) {
+    const select = document.getElementById(selectId);
+    select.innerHTML = `<option selected disabled value="">Elije...</option>`;
+
+    try {
+        const sponsor = await fetchAllSponsor();
+
+        sponsor.forEach(sponsor => {
+            select.innerHTML += `<option value="${sponsor.id}">${sponsor.name}</option>`;
         });
 
     } catch (error) {
@@ -287,46 +250,6 @@ export async function cargarOrganizerEnSelect(selectId) {
             icon: "warning",
             title: "Atención",
             text: error.message || "No se cargaron los datos type DOM."
-        });
-    }
-}
-
-export async function cargarLocationEnSelect(selectId) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = `<option selected disabled value="">Elije...</option>`;
-
-    try {
-        const location = await fetchAllLocation();
-
-        location.forEach(location => {
-            select.innerHTML += `<option value="${location.id}">${location.name}</option>`;
-        });
-
-    } catch (error) {
-        Swal.fire({
-            icon: "warning",
-            title: "Atención",
-            text: error.message || "No se cargaron los Event datos DOM."
-        });
-    }
-}
-
-export async function cargarCategoryEnSelect(selectId) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = `<option selected disabled value="">Elije...</option>`;
-
-    try {
-        const category = await fetchAllCategory();
-
-        category.forEach(category => {
-            select.innerHTML += `<option value="${category.id}">${category.name}</option>`;
-        });
-
-    } catch (error) {
-        Swal.fire({
-            icon: "warning",
-            title: "Atención",
-            text: error.message || "No se cargaron los Event datos DOM."
         });
     }
 }
