@@ -22,7 +22,7 @@ export async function listar() {
             <td>$${item.price} COP</td>
             <td>${item.availableQuantity}</td>
             <td>${item.typeTicketName}</td>
-            <td>${item.eventName}</td>
+            <td class="big-text-columna" title="${item.eventName}">${item.eventName}</td>
             <td>
                 <div class="form-button-action">
                     <button type="button" class="btnActualizar btn btn-link btn-primary btn-lg" title="Actualizar Registro"
@@ -63,17 +63,18 @@ export async function listar() {
         }
     });
 
-    document.querySelectorAll(".btnActualizar").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const id = this.getAttribute("data-id");
-            ejecutarFormularioActualizar(id)
-        });
-    });
-
-    document.querySelectorAll(".btnEliminar").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const id = this.getAttribute("data-id");
-            const price = this.getAttribute("data-price");
+    document.querySelector("#tablaRespuesta tbody").addEventListener("click", async (e) => {
+        const btnActualizar = e.target.closest(".btnActualizar");
+        const btnEliminar = e.target.closest(".btnEliminar");
+    
+        if (btnActualizar) {
+            const id = btnActualizar.getAttribute("data-id");
+            ejecutarFormularioActualizar(id);
+        }
+    
+        if (btnEliminar) {
+            const id = btnEliminar.getAttribute("data-id");
+            const price = btnEliminar.getAttribute("data-price");
             Swal.fire({
                 icon: "warning",
                 title: "¿Estás Segur@ de la Eliminación?",
@@ -88,7 +89,7 @@ export async function listar() {
                     await listar();
                 }
             });
-        });
+        }
     });
 }
 

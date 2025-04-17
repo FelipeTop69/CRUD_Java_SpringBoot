@@ -72,23 +72,22 @@ export async function listar() {
          */
     });
 
-    document.querySelectorAll(".btnActualizar").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const id = this.getAttribute("data-id");
-            // alert(id);
-            ejecutarFormularioActualizar(id)
-        });
-    });
-
-    document.querySelectorAll(".btnEliminar").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const id = this.getAttribute("data-id");
-            const name = this.getAttribute("data-name");
-
+    document.querySelector("#tablaRespuesta tbody").addEventListener("click", async (e) => {
+        const btnActualizar = e.target.closest(".btnActualizar");
+        const btnEliminar = e.target.closest(".btnEliminar");
+    
+        if (btnActualizar) {
+            const id = btnActualizar.getAttribute("data-id");
+            ejecutarFormularioActualizar(id);
+        }
+    
+        if (btnEliminar) {
+            const id = btnEliminar.getAttribute("data-id");
+            const name = btnEliminar.getAttribute("data-name");
             Swal.fire({
-                title: "¿Estás Segur@ de la Eliminación?",
-                text: `Organizer: ${name} (ID: ${id})`,
                 icon: "warning",
+                title: "¿Estás Segur@ de la Eliminación?",
+                text: `Name: ${name}`,
                 showCancelButton: true,
                 confirmButtonText: "Confirmar",
                 cancelButtonText: "Cancelar",
@@ -99,7 +98,7 @@ export async function listar() {
                     await listar();
                 }
             });
-        });
+        }
     });
 }
 
