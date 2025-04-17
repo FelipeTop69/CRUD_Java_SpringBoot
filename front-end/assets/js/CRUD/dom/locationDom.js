@@ -1,4 +1,4 @@
-import {fetchAll, save, getById, update, kill} from "../api/organizerAPI.js"
+import {fetchAll, save, getById, update, kill} from "../api/locationAPI.js"
 
 let dataTable; // Referencia global al DataTable
 
@@ -21,7 +21,8 @@ export async function listar() {
         tr.innerHTML = `
             <td>#${numero++}</td>
             <td>${item.name}</td>
-            <td>${item.phone}</td>
+            <td>${item.address}</td>
+            <td>${item.capacity}</td>
             <td>
                 <div class="form-button-action">
                     <button type="button" class="btnActualizar btn btn-link btn-primary btn-lg" title="Actualizar Registro"
@@ -111,7 +112,8 @@ export function ejecutarFormularioRegistro() {
 
         const form = {
             name: formulario.name.value,
-            phone: formulario.phone.value,
+            address: formulario.address.value,
+            capacity: formulario.capacity.value,
         };
 
         try {
@@ -137,7 +139,7 @@ async function  ejecutarFormularioActualizar(id) {
 
     try {
         const info = await getById(id);
-        // console.log(`Info: ${info.id} - ${info.name} - ${info.phone}`)
+        // console.log(`Info: ${info.id} - ${info.name} - ${info.address}`)
 
         modalBody.innerHTML = `
             <form id="formularioActualizar" class="row needs-validation">
@@ -146,9 +148,12 @@ async function  ejecutarFormularioActualizar(id) {
                     <label for="nameUpdate" class="form-label">Name</label>
                         <input type="text" name="nameUpdate" id="nameUpdate" value="${info.name}" class="form-control mb-3" placeholder="Digite el Nombre" required>
             
-                    <label for="phoneUpdate" class="form-label">Phone</label>
-                        <input type="text" name="phoneUpdate" id="phoneUpdate" value="${info.phone}" class="form-control mb-3" placeholder="Digite el Numero de Contacto" required 
-                            pattern="[0-9]{1,15}" maxlength="10" title="Solo numeros, máximo 10 digitos">
+                    <label for="addressUpdate" class="form-label">Address</label>
+                        <input type="text" name="addressUpdate" id="addressUpdate" value="${info.address}" class="form-control mb-3" placeholder="Digite la Descripcion" required>
+
+                    <label for="capacityUpdate" class="form-label mb-3">Capacity</label>
+                        <input type="number" name="capacityUpdate" id="capacityUpdate" class="form-control mb-3" value="${info.capacity}" placeholder="Digite la Capacidad" required
+                        min="1" max="100000" step="1" title="Solo números enteros entre 1 y 100.000">
                 </div>
                 <br>
                 <div class="col-md-12 text-center mb-2">
@@ -179,7 +184,8 @@ function actualizar() {
         const data = {
             id: parseInt(formActualizar.id.value),
             name: formActualizar.nameUpdate.value,
-            phone: formActualizar.phoneUpdate.value
+            address: formActualizar.addressUpdate.value,
+            capacity: formActualizar.capacityUpdate.value,
         };
 
         try {

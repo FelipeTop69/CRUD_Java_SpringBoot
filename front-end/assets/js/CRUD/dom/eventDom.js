@@ -167,14 +167,14 @@ async function  ejecutarFormularioActualizar(id) {
             <form id="formularioActualizar" class="row needs-validation">
                 <input type="hidden" name="id" value="${info.id}" />
                 <div class="col-md-12">
-                    <label for="name" class="form-label">Name</label>
-                        <input type="text" name="name" id="name" value="${info.name}" class="form-control mb-3" required>
+                    <label for="nameUpdate" class="form-label">Name</label>
+                        <input type="text" name="nameUpdate" id="nameUpdate" value="${info.name}" class="form-control mb-3" required>
 
-                    <label for="description" class="form-label">Description</label>
-                        <input type="text" name="description" id="description" value="${info.description}" class="form-control mb-3" required>
+                    <label for="descriptionUpdate" class="form-label">Description</label>
+                        <input type="text" name="descriptionUpdate" id="descriptionUpdate" value="${info.description}" class="form-control mb-3" required>
 
-                    <label for="date" class="form-label">Fecha y Hora del Evento</label>
-                        <input type="datetime-local" name="date" id="date" value="${fechaFormateada}" class="form-control mb-3" required>
+                    <label for="dateUpdate" class="form-label">Fecha y Hora del Evento</label>
+                        <input type="datetime-local" name="dateUpdate" id="dateUpdate" value="${fechaFormateada}" class="form-control mb-3" required>
 
                     <label for="organizerUpdateId" class="form-label">Organizer</label>
                         <select class="form-select mb-3" id="organizerUpdateId" name="organizerUpdateId" required>
@@ -247,9 +247,9 @@ function actualizar() {
 
         const data = {
             id: parseInt(formActualizar.id.value),
-            name: formActualizar.name.value,
-            description: formActualizar.description.value,
-            date: formActualizar.date.value + ":00",
+            name: formActualizar.nameUpdate.value,
+            description: formActualizar.descriptionUpdate.value,
+            date: formActualizar.dateUpdate.value + ":00",
             organizerId: parseInt(formActualizar.organizerUpdateId.value),
             locationId: parseInt(formActualizar.locationUpdateId.value),
             categoryId: parseInt(formActualizar.categoryUpdateId.value)
@@ -311,7 +311,6 @@ export async function cargarLocationEnSelect(selectId) {
         });
     }
 }
-
 
 export async function cargarCategoryEnSelect(selectId) {
     const select = document.getElementById(selectId);

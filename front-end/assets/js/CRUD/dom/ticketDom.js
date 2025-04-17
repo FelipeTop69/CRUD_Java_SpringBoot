@@ -137,12 +137,12 @@ async function  ejecutarFormularioActualizar(id) {
             <form id="formularioActualizar" class="row needs-validation">
                 <input type="hidden" name="id" value="${info.id}" />
                 <div class="col-md-12">
-                    <label for="price" class="form-label">Price</label>
-                        <input type="number" name="price" id="price" class="form-control mb-3" value="${info.price}" required
+                    <label for="priceUpdate" class="form-label">Price</label>
+                        <input type="number" name="priceUpdate" id="priceUpdate" class="form-control mb-3" value="${info.price}" required
                             step="0.01" min="0" max="2000000" pattern="^\d+(\.\d{1,2})?$" title="Solo números. Hasta 2 decimales. Ej: 2500.50">
                         
-                    <label for="availableQuantity" class="form-label mb-3">Quantity</label>
-                        <input type="number" name="availableQuantity" id="availableQuantity" class="form-control mb-3" value="${info.availableQuantity}" required
+                    <label for="availableQuantityUpdate" class="form-label mb-3">Quantity</label>
+                        <input type="number" name="availableQuantityUpdate" id="availableQuantityUpdate" class="form-control mb-3" value="${info.availableQuantity}" required
                             min="1" max="10000" step="1" title="Solo números enteros entre 1 y 10.000">
                         
                     <label for="typeTicketUpdateId" class="form-label">Type Ticket</label>
@@ -194,8 +194,8 @@ function actualizar() {
 
         const data = {
             id: parseInt(formActualizar.id.value),
-            price: parseFloat(formActualizar.price.value.replace(',', '.')),
-            availableQuantity: parseInt(formActualizar.availableQuantity.value),
+            price: parseFloat(formActualizar.priceUpdate.value.replace(',', '.')),
+            availableQuantity: parseInt(formActualizar.availableQuantityUpdate.value),
             eventId: parseInt(formActualizar.eventUpdateId.value),
             typeTicketId: parseInt(formActualizar.typeTicketUpdateId.value),
         };

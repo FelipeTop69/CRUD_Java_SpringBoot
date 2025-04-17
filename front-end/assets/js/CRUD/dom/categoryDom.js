@@ -143,11 +143,11 @@ async function  ejecutarFormularioActualizar(id) {
             <form id="formularioActualizar" class="row needs-validation">
                 <input type="hidden" name="id" value="${info.id}" />
                 <div class="col-md-12">
-                    <label for="name" class="form-label">Name</label>
-                        <input type="text" name="name" id="name" value="${info.name}" class="form-control mb-3" placeholder="Digite el Nombre" required>
+                    <label for="nameUpdate" class="form-label">Name</label>
+                        <input type="text" name="nameUpdate" id="nameUpdate" value="${info.name}" class="form-control mb-3" placeholder="Digite el Nombre" required>
             
-                    <label for="description" class="form-label">Description</label>
-                        <input type="text" name="description" id="description" value="${info.description}" class="form-control mb-3" placeholder="Digite la Descripcion" required >
+                    <label for="descriptionUpdate" class="form-label">Description</label>
+                        <input type="text" name="descriptionUpdate" id="descriptionUpdate" value="${info.description}" class="form-control mb-3" placeholder="Digite la Descripcion" required >
                 </div>
                 <br>
                 <div class="col-md-12 text-center mb-2">
@@ -177,8 +177,8 @@ function actualizar() {
 
         const data = {
             id: parseInt(formActualizar.id.value),
-            name: formActualizar.name.value,
-            description: formActualizar.description.value
+            name: formActualizar.nameUpdate.value,
+            description: formActualizar.descriptionUpdate.value
         };
 
         try {
