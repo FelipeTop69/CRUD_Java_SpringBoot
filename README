@@ -1,0 +1,6 @@
+# Para un Correcto Funcionamiento del Proyecto
+
+### Backend
+```bash
+./mvnw clean install
+```
