@@ -1,7 +1,6 @@
 # Para un Correcto Funcionamiento del Proyecto
 
 ### Backend
-
 > Construir
 
  ```bash
@@ -17,3 +16,17 @@
 ```
 
 </br>
+
+### Frontend
+
+> Restaurar
+
+```bash
+npm install
+```
+
+> Ejecutar 
+
+```bash
+npx expo start
+```

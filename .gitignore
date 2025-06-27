@@ -1,8 +1,6 @@
 # Configuración de Visual Studio Code
-**/.vscode/
-.vscode/
 back-end/.vscode/
-front-end/.vscode/
+crud-api-app/.vscode/
 
 model/Entidades_Java.txt
 model/Logica_Entidad.txt
@@ -42,3 +40,40 @@ back-end/nbbuild/
 back-end/dist/
 back-end/nbdist/
 back-end/.nb-gradle/
+
+# Ignorar archivos específicos dentro de "crud-api-app React Native/"
+
+# dependencies
+crud-api-app/node_modules/
+
+# Expo
+crud-api-app/.expo/
+crud-api-app/dist/
+crud-api-app/web-build/
+crud-api-app/expo-env.d.ts
+
+# Native
+crud-api-app/*.orig.*
+crud-api-app/*.jks
+crud-api-app/*.p8
+crud-api-app/*.p12
+crud-api-app/*.key
+crud-api-app/*.mobileprovision
+
+# Metro
+crud-api-app/.metro-health-check*
+
+# debug
+crud-api-app/npm-debug.*
+crud-api-app/yarn-debug.*
+crud-api-app/yarn-error.*
+
+# macOS
+crud-api-app/.DS_Store
+crud-api-app/*.pem
+
+# local env files
+crud-api-app/.env*.local
+
+# typescript
+crud-api-app/*.tsbuildinfo
