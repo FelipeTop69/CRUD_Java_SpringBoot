@@ -42,7 +42,7 @@ back-end/nbdist/
 back-end/.nb-gradle/
 
 # Ignorar archivos específicos dentro de "crud-api-app React Native/"
-crud-api-app/
+crud-api-app-guia/
 
 # dependencies
 crud-api-app/node_modules/
