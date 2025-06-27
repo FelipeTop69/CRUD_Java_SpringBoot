@@ -29,4 +29,7 @@ npm install
 
 ```bash
 npx expo start
+npm run android
+npm run web
+npm run ios
 ```
