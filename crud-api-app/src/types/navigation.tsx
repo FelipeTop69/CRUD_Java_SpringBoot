@@ -1,4 +1,4 @@
 export type DrawerParamList = {
     Home: undefined;
-    Settings: undefined;
+    Category: undefined;
 };
