@@ -1,22 +1,22 @@
-import React from 'react';
-import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import HomeScreen from '../screens/HomeScreen';
-import CategoryScreen from '../screens/CategoryScreen';
-import { DrawerParamList } from '../types/navigation';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import React from 'react';
+import { Image, Text, View } from 'react-native';
+import CategoryScreen from '../screens/CategoryScreen';
+import HomeScreen from '../screens/HomeScreen';
+import { DrawerParamList } from '../types/navigation';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
     return (
         <DrawerContentScrollView {...props}>
-            <View style={styles.containerImgDrawer}>
-                <Image source={require('../../assets/favicon.png')} style={styles.ImgDrawer} />
-                <Text style={styles.TextImgDrawer}>
+            <View className="p-4 items-center">
+                <Image source={require('../../assets/favicon.png')} className='w-24 h-24' />
+                <Text className="mt-2 text-base font-semibold">
                     Bienvenido(a)
                 </Text>
-                <View style={styles.barSeparatorDrawer} />
+                <View className='mt-4 h-1 w-full bg-gray-300 rounded-full' />
             </View>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>
@@ -61,26 +61,3 @@ export default function DrawerNavigator() {
         </Drawer.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    containerImgDrawer: {
-        padding: 16, 
-        alignItems: 'center'
-    },
-    ImgDrawer: {
-        width: 100, 
-        height: 100
-    },
-    TextImgDrawer: {
-        marginTop: 8, 
-        fontSize: 16, 
-        fontWeight: '600'
-    },
-    barSeparatorDrawer: {
-        marginTop: 16,
-        height: 3,
-        width: '100%',
-        backgroundColor: '#ccc',
-        borderRadius: 8
-    },
-});
