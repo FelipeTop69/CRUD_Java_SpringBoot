@@ -1,48 +1,53 @@
 import React from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors } from '../../themes';
-import EntidadCard from '../components/EntidadCard';
+import { colors } from '../themes';
+import EntidadCard from '../components/EntityCard';
+import EmptyList from '../components/EmptyList';
+import { Entidad } from '../types/entity';
 
 
-const entidades = [
+
+const entidades: Entidad[] = [
     {
         id: 1,
-        name: 'Categorias',
+        nombre: 'Categorias',
         registros: 0,
         image: require('../../assets/img/ejemplo/1.png'),
     },
     {
         id: 2,
-        name: 'Eventos',
+        nombre: 'Eventos',
         registros: 0,
         image: require('../../assets/img/ejemplo/2.png'),
     },
     {
         id: 3,
-        name: 'Sponsors',
+        nombre: 'Sponsors',
         registros: 0,
         image: require('../../assets/img/ejemplo/3.png'),
     },
     {
         id: 4,
-        name: 'Ubicaciones',
+        nombre: 'Ubicaciones',
         registros: 0,
         image: require('../../assets/img/ejemplo/4.png'),
     },
     {
         id: 5,
-        name: 'Otro',
+        nombre: 'Otro',
         registros: 0,
         image: require('../../assets/img/ejemplo/5.png'),
     },
     {
         id: 6,
-        name: 'Otro X2',
+        nombre: 'Otro X2',
         registros: 0,
         image: require('../../assets/img/ejemplo/6.png'),
     },
-]
+];
+
+
 
 export default function HomeScreen() {
     return (
@@ -54,10 +59,11 @@ export default function HomeScreen() {
                 <View className='flex-row justify-center items-center'>
                     <Text className={`${colors.heading} text-[26px] font-black  uppercase italic tracking-[2px]`} >entidades</Text>
                 </View>
-                <View className='mt-3 h-[500px]'>
+                <View className='mt-3 h-[550px]'>
                     <FlatList
                         data={entidades}
                         numColumns={2}
+                        ListEmptyComponent={<EmptyList message={"No Hay Entidades"} />}
                         keyExtractor={item=>item.id.toString()}
                         showsVerticalScrollIndicator={false}
                         columnWrapperStyle={{

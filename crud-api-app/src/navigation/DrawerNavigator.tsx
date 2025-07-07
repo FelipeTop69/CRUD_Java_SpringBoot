@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import CategoryScreen from '../screens/CategoryScreen';
+import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
 
@@ -35,6 +35,7 @@ export default function DrawerNavigator() {
                     marginVertical: 8,
                 },
             }}
+            
         >
             <Drawer.Screen
                 name="Home"

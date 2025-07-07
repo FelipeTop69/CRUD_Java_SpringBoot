@@ -13,6 +13,7 @@ const linking = {
     screens: {
       Home: '',
       Category: 'categoria',
+      
     },
   },
 };
