@@ -1,18 +1,19 @@
+import * as Haptics from 'expo-haptics';
 import React, { useState } from 'react';
 import {
-    Text,
-    View,
     Image,
-    TextInput,
-    TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BackButton from '../../../components/Base/BackButton';
 import { colors } from '../../../themes';
-import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function CategoryCreate() {
     const [name, setName] = useState('');
@@ -23,6 +24,7 @@ export default function CategoryCreate() {
 
     const handleCreate = () => {
         if (!name.trim()) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             setAlertMessage('El nombre de la categoría es obligatorio.');
             setAlertSuccess(false);
             setAlertVisible(true);

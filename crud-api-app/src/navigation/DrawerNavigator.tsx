@@ -6,6 +6,7 @@ import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
 import CategoryCreate from '../screens/Entities/Category/CategoryCreate';
+import CategoryUpdate from '../screens/Entities/Category/CategoryUpdate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -68,7 +69,16 @@ export default function DrawerNavigator() {
                 component={CategoryCreate}
                 options={{
                     title: 'Registrar Categorias',
-                    drawerItemStyle: { display: 'none' }, 
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+
+            <Drawer.Screen
+                name="CategoryUpdate"
+                component={CategoryUpdate}
+                options={{
+                    title: 'Registrar Categorias',
+                    drawerItemStyle: { display: 'none' },
                 }}
             />
         </Drawer.Navigator>
