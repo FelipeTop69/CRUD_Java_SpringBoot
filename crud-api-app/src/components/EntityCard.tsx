@@ -58,7 +58,7 @@ export default function EntityCard({ item, index }: Props) {
                         className="w-44 h-44 rounded-full mb-2"
                         resizeMode='cover'
                     />
-                    <Text className={`${colors.heading} text-lg semi-bold text-center`}>{item.nombre}</Text>
+                    <Text className={`${colors.heading} text-lg font-semibold text-center`}>{item.nombre}</Text>
                     <View className="mt-2 px-2 py-1 bg-blue-100 rounded-full">
                         <Text className="text-sm text-blue-700 font-medium">
                             {item.registros} Registro{item.registros !== 1 ? 's' : ''}

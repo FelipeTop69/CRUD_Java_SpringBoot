@@ -13,37 +13,37 @@ const entidades: Entidad[] = [
         id: 1,
         nombre: 'Categorias',
         registros: 0,
-        image: require('../../assets/img/ejemplo/1.png'),
+        image: '',
     },
     {
         id: 2,
         nombre: 'Eventos',
         registros: 0,
-        image: require('../../assets/img/ejemplo/2.png'),
+        image: '',
     },
     {
         id: 3,
         nombre: 'Sponsors',
         registros: 0,
-        image: require('../../assets/img/ejemplo/3.png'),
+        image: '',
     },
     {
         id: 4,
         nombre: 'Ubicaciones',
         registros: 0,
-        image: require('../../assets/img/ejemplo/4.png'),
+        image: '',
     },
     {
         id: 5,
         nombre: 'Otro',
         registros: 0,
-        image: require('../../assets/img/ejemplo/5.png'),
+        image: '',
     },
     {
         id: 6,
         nombre: 'Otro X2',
         registros: 0,
-        image: require('../../assets/img/ejemplo/6.png'),
+        image: '',
     },
 ];
 
