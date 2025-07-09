@@ -52,7 +52,7 @@ export default function RegisterList({
             case 'delete':
                 Alert.alert(
                     '¿Eliminar categoría?',
-                    `¿Estás seguro de que deseas eliminar "${item.nombre}"?`,
+                    `¿Estás seguro de que deseas eliminar "${item.name}"?`,
                     [
                         { text: 'Cancelar', style: 'cancel' },
                         {
@@ -76,7 +76,7 @@ export default function RegisterList({
                 {/* Información */}
                 <View>
                     <Text className={`${colors.heading} text-lg font-semibold`}>
-                        {item.nombre}
+                        {item.name}
                     </Text>
                 </View>
 

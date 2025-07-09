@@ -20,31 +20,7 @@ const entidades: Entidad[] = [
         nombre: 'Eventos',
         registros: 0,
         image: '',
-    },
-    {
-        id: 3,
-        nombre: 'Sponsors',
-        registros: 0,
-        image: '',
-    },
-    {
-        id: 4,
-        nombre: 'Ubicaciones',
-        registros: 0,
-        image: '',
-    },
-    {
-        id: 5,
-        nombre: 'Otro',
-        registros: 0,
-        image: '',
-    },
-    {
-        id: 6,
-        nombre: 'Otro X2',
-        registros: 0,
-        image: '',
-    },
+    }
 ];
 
 

@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import {
-    StyleSheet,
-    Button,
-    View,
-    Dimensions,
     Animated,
+    Dimensions,
     Easing,
-    Text
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
+import { XCircleIcon } from 'react-native-heroicons/outline';
 import { Category } from '../../types/Entities/category';
 
-// Tipos para las props del modal
 type ModalOptions = {
     type: 'slide';
     from: 'top' | 'bottom';
@@ -20,11 +21,11 @@ type ModalProps = {
     visible: boolean;
     options: ModalOptions;
     duration: number;
-    item?: Category
     onClose: () => void;
+    item?: Category;
 };
 
-const Modal: React.FC<ModalProps> = ({ visible, options, duration, item, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ visible, options, duration, onClose, item }) => {
     const { height } = Dimensions.get('screen');
     const startPointY = options?.from === 'top' ? -height : height;
     const transY = useRef(new Animated.Value(startPointY)).current;
@@ -46,24 +47,15 @@ const Modal: React.FC<ModalProps> = ({ visible, options, duration, item, onClose
         }).start();
     };
 
-    const handlePress = () => {
-        onClose();
-    };
-
     const generateBackgroundOpacity = () => {
-        if (startPointY >= 0) {
-            return transY.interpolate({
-                inputRange: [0, startPointY],
-                outputRange: [0.8, 0],
-                extrapolate: 'clamp',
-            });
-        } else {
-            return transY.interpolate({
-                inputRange: [startPointY, 0],
-                outputRange: [0, 0.8],
-                extrapolate: 'clamp',
-            });
-        }
+        const inputRange = startPointY < 0 ? [startPointY, 0] : [0, startPointY];
+        const outputRange = startPointY < 0 ? [0, 0.8] : [0.8, 0];
+
+        return transY.interpolate({
+            inputRange,
+            outputRange,
+            extrapolate: 'clamp',
+        });
     };
 
     return (
@@ -74,11 +66,22 @@ const Modal: React.FC<ModalProps> = ({ visible, options, duration, item, onClose
             />
             <Animated.View style={[styles.container, { transform: [{ translateY: transY }] }]}>
                 <View style={styles.innerContainer}>
-                    <Button title="Close Modal" onPress={handlePress} />
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-                        {item?.id}
-                    </Text>
+                    {/* Botón de cierre */}
+                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                        <XCircleIcon size={32} color="#374151" />
+                    </TouchableOpacity>
 
+                    {/* Imagen decorativa */}
+                    {/* {item?.image && (
+                        <Image
+                            source={item.image}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+                    )} */}
+
+                    {/* Nombre de la categoría */}
+                    <Text style={styles.title}>{item?.name}</Text>
                 </View>
             </Animated.View>
         </>
@@ -92,8 +95,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#2b4369',
     },
     container: {
@@ -104,11 +105,33 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     innerContainer: {
-        width: '70%',
-        height: '20%',
+        width: '80%',
         backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
         borderRadius: 20,
+        padding: 20,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.15,
+        shadowOffset: { width: 0, height: 4 },
+        shadowRadius: 10,
+        elevation: 5,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 12,
+        right: 12,
+        padding: 4,
+        zIndex: 10,
+    },
+    image: {
+        width: 100,
+        height: 100,
+        marginBottom: 16,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#1f2937',
+        textAlign: 'center',
     },
 });

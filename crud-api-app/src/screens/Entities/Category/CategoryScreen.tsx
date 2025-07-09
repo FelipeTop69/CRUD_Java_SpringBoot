@@ -1,7 +1,7 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     Button,
     FlatList,
@@ -19,26 +19,46 @@ import { Category } from '../../../types/Entities/category';
 import { DrawerParamList } from '../../../types/navigation';
 import { globalStyles } from '../../../styles/global';
 import ModalDetails from '../../../components/Base/ModalDetails';
-
-
-
-const initialData: Category[] = [
-    {
-        id: 1,
-        nombre: 'Categorias',
-        image: require('../../../../assets/img/ejemplo/1.png'),
-    },
-    {
-        id: 2,
-        nombre: 'Eventos',
-        image: require('../../../../assets/img/ejemplo/2.png'),
-    },
-];
+import { CategoryService } from '../../../api/Entities/categoryService';
 
 export default function CategoryScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-    const [categories, setCategories] = useState<Category[]>(initialData);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [viewItem, setViewItem] = useState<Category | null>(null);
+
+
+    // Peticiones
+    useFocusEffect(
+        useCallback(() => {
+            const fetchData = async () => {
+                try {
+                    const data = await CategoryService.getAll();
+                    setCategories(data);
+                } catch (error) {
+                    console.error("Error al cargar categorías:", error);
+                }
+            };
+
+            fetchData();
+        }, [])
+    );
+
+
+    const handleEdit = (item: Category) => {
+        navigation.navigate('CategoryUpdate');
+    };
+
+    const handleDelete = async (item: Category) => {
+        try {
+            const response = await CategoryService.delete(Number(item.id));
+            setCategories(prev => prev.filter(cat => cat.id !== item.id));
+            console.log(response.message || 'Categoría eliminada');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        } catch (error) {
+            console.error('Error al eliminar categoría:', error);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        }
+    };
 
     const handleView = (item: Category) => {
         Haptics.selectionAsync();
@@ -47,14 +67,6 @@ export default function CategoryScreen() {
 
     const handleClose = () => {
         setViewItem(null);
-    };
-
-    const handleEdit = (item: Category) => {
-        navigation.navigate('CategoryUpdate');
-    };
-
-    const handleDelete = (item: Category) => {
-        console.log(`Eliminar ${item.nombre}`);
     };
 
     return (

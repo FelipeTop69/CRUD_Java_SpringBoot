@@ -2,9 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import "./global.css";
 import DrawerNavigator from './src/navigation/DrawerNavigator';
-import "./global.css"
-import CategoryUpdate from './src/screens/Entities/Category/CategoryUpdate';
 
 // Configuracion para adiccion de ruta actual en web
 const linking = {
@@ -12,7 +11,9 @@ const linking = {
   config: {
     screens: {
       Home: '',
+      // Categoria
       Category: 'categoria',
+      CategoryCreate: 'categoria/create',
       CategoryUpdate: 'categoria/update',
     },
   },
