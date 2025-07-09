@@ -5,6 +5,7 @@ import { Image, Text, View } from 'react-native';
 import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
+import CategoryCreate from '../screens/Entities/Category/CategoryCreate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -35,7 +36,7 @@ export default function DrawerNavigator() {
                     marginVertical: 8,
                 },
             }}
-            
+
         >
             <Drawer.Screen
                 name="Home"
@@ -48,15 +49,26 @@ export default function DrawerNavigator() {
                     ),
                 }}
             />
+
+            {/* Entiadad Categoria */}
             <Drawer.Screen
                 name="Category"
                 component={CategoryScreen}
                 options={{
                     drawerLabel: 'Categoría',
-                    title: 'Registros Categorías',
+                    title: 'Categorías',
                     drawerIcon: ({ color, size }) => (
                         <Ionicons name="grid" size={size} color={color} />
                     ),
+                }}
+            />
+
+            <Drawer.Screen
+                name="CategoryCreate"
+                component={CategoryCreate}
+                options={{
+                    title: 'Registrar Categorias',
+                    drawerItemStyle: { display: 'none' }, 
                 }}
             />
         </Drawer.Navigator>

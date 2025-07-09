@@ -6,6 +6,8 @@ import RegisterList from '../../../components/Base/RegisterList';
 import EmptyList from '../../../components/EmptyList';
 import { colors } from '../../../themes';
 import { Category } from '../../../types/Entities/category';
+import { DrawerParamList } from '../../../types/navigation';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 
 
@@ -42,10 +44,9 @@ const entidad: Category[] = [
     },
 ];
 
-
-
 export default function CategoryScreen() {
-    const navigation = useNavigation();
+
+    const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
     return (
         <SafeAreaView className='flex-1' edges={['left', 'right', 'bottom', 'top']}>
@@ -57,7 +58,7 @@ export default function CategoryScreen() {
                     <View className='flex-row justify-between items-center'>
                         <Text className={`${colors.heading} text-xl font-black  uppercase italic tracking-[2px]`} >categorías</Text>
                         <TouchableOpacity
-                            // onPress={()=>navigation.navigate('')}
+                            onPress={() => navigation.navigate('CategoryCreate')}
                             className='p-2 px-3 bg-white border border-gray-200 rounded-full'
                         >
                             <Text className={`${colors.heading} text-lg`}>Categoría</Text>
