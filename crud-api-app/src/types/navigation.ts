@@ -4,5 +4,5 @@ export type DrawerParamList = {
     // Categoria
     Category: undefined;
     CategoryCreate: undefined;
-    CategoryUpdate: undefined;
+    CategoryUpdate: {id: number};
 };

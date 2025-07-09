@@ -24,7 +24,7 @@ export default function CategoryCreate() {
                         <View className="space-y-6">
                             <View className="flex-row items-center justify-between mb-2">
                                 <View className="w-8 h-8 items-center justify-center">
-                                    <BackButton />
+                                    <BackButton to='Category' />
                                 </View>
                                 <Text className={`${colors.heading} text-2xl font-bold text-center flex-1`}>
                                     Agregar Categoría

@@ -6,17 +6,23 @@ import { ArrowLeftCircleIcon } from 'react-native-heroicons/outline';
 import { colors } from '../../themes';
 import { DrawerParamList } from '../../types/navigation';
 
-export default function BackButton() {
+type RoutesWithoutParams = {
+    [K in keyof DrawerParamList]: DrawerParamList[K] extends undefined ? K : never;
+}[keyof DrawerParamList];
 
+type Props = {
+    to?: RoutesWithoutParams;
+};
+
+export default function BackButton({ to = 'Home' }: Props) {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate('Category')}
+            onPress={() => navigation.navigate(to)}
             className="h-8 w-8 items-center justify-center"
         >
             <ArrowLeftCircleIcon size={40} color={colors.button} />
         </TouchableOpacity>
-
     );
 }

@@ -45,7 +45,7 @@ export default function CategoryScreen() {
 
 
     const handleEdit = (item: Category) => {
-        navigation.navigate('CategoryUpdate');
+        navigation.navigate('CategoryUpdate', {id: Number(item.id)});
     };
 
     const handleDelete = async (item: Category) => {
