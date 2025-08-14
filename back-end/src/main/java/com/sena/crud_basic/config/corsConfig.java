@@ -1,5 +1,7 @@
 package com.sena.crud_basic.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -9,13 +11,18 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class corsConfig {
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
         // Permitir solicitudes desde todos los origenes
         // // config.addAllowedOrigin("*");
-        config.addAllowedOrigin("http://127.0.0.1:5500");
+        config.setAllowedOrigins(Arrays.asList(
+            "http://127.0.0.1:5500",
+            "http://localhost:8081",
+            "exp://172.30.5.55:8081"
+        ));
+
         // config.addAllowedOrigin("n cantidad de servidores");
 
         // Permitir solicitudes con estos metodos HTTP

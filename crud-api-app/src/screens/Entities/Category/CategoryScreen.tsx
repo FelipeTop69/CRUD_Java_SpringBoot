@@ -1,25 +1,24 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
-    Button,
     FlatList,
     Image,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { PlusIcon } from 'react-native-heroicons/outline';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CategoryService } from '../../../api/Entities/categoryService';
+import ModalDetails from '../../../components/Base/ModalDetails';
 import RegisterList from '../../../components/Base/RegisterList';
 import EmptyList from '../../../components/EmptyList';
+import { globalStyles } from '../../../styles/global';
 import { colors } from '../../../themes';
 import { Category } from '../../../types/Entities/category';
 import { DrawerParamList } from '../../../types/navigation';
-import { globalStyles } from '../../../styles/global';
-import ModalDetails from '../../../components/Base/ModalDetails';
-import { CategoryService } from '../../../api/Entities/categoryService';
 
 export default function CategoryScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
