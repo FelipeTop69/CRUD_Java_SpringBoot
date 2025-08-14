@@ -5,4 +5,9 @@ export type DrawerParamList = {
     Category: undefined;
     CategoryCreate: undefined;
     CategoryUpdate: {id: number};
+
+    // Tipo de Ticket
+    TyTicket: undefined;
+    TyTicketCreate: undefined;
+    TyTicketUpdate: {id: number};
 };

@@ -3,11 +3,10 @@ import {
     Animated,
     Dimensions,
     Easing,
-    Image,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { XCircleIcon } from 'react-native-heroicons/outline';
 import { Category } from '../../types/Entities/category';

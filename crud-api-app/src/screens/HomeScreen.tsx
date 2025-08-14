@@ -1,9 +1,9 @@
 import React from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors } from '../themes';
-import EntidadCard from '../components/EntityCard';
 import EmptyList from '../components/EmptyList';
+import EntidadCard from '../components/EntityCard';
+import { colors } from '../themes';
 import { Entidad } from '../types/entity';
 
 
@@ -11,15 +11,17 @@ import { Entidad } from '../types/entity';
 const entidades: Entidad[] = [
     {
         id: 1,
-        nombre: 'Categorias',
+        nombre: 'Categorías',
         registros: 0,
         image: '',
+        navigate: 'categorynav'
     },
     {
         id: 2,
         nombre: 'Tipos de Entradas',
         registros: 0,
         image: '',
+        navigate: 'tyticketnav'
     }
 ];
 

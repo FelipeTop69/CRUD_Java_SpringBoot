@@ -1,15 +1,15 @@
 import React from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CategoryService } from '../../../api/Entities/categoryService';
+import { TyTicketService } from '../../../api/Entities/tyTicketService';
 import BackButton from '../../../components/Base/BackButton';
-import CategoryForm from '../../../components/Base/forms/CategoryForm';
+import TyTicketForm from '../../../components/Base/forms/TyTicketForm';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { TyTicket } from '../../../types/Entities/tyTicket';
 
-export default function CategoryCreate() {
-    const handleCreate = async (data: Category) => {
-        await CategoryService.create(data);
+export default function TyTicketCreate() {
+    const handleCreate = async (data: TyTicket) => {
+        await TyTicketService.create(data);
     };
 
     return (
@@ -24,10 +24,10 @@ export default function CategoryCreate() {
                         <View className="space-y-6">
                             <View className="flex-row items-center justify-between mb-2">
                                 <View className="w-8 h-8 items-center justify-center">
-                                    <BackButton to='Category' />
+                                    <BackButton to='TyTicket' />
                                 </View>
                                 <Text className={`${colors.heading} text-2xl font-bold text-center flex-1`}>
-                                    Agregar Categoría
+                                    Agregar Tipo de Entrada
                                 </Text>
                                 <View className="w-8 h-8" />
                             </View>
@@ -42,7 +42,7 @@ export default function CategoryCreate() {
                             </View>
 
                             {/* Formulario */}
-                            <CategoryForm onSubmit={handleCreate} submitLabel="Crear Categoría" />
+                            <TyTicketForm onSubmit={handleCreate} submitLabel="Crear Tipo de Entrada" />
                         </View>
                     </View>
                 </ScrollView>

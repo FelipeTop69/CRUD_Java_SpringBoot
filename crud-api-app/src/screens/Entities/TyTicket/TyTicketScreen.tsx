@@ -11,58 +11,55 @@ import {
 } from 'react-native';
 import { PlusIcon } from 'react-native-heroicons/outline';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CategoryService } from '../../../api/Entities/categoryService';
+import { TyTicketService } from '../../../api/Entities/tyTicketService';
 import ModalDetails from '../../../components/Base/ModalDetails';
 import RegisterList from '../../../components/Base/RegisterList';
 import EmptyList from '../../../components/EmptyList';
 import { globalStyles } from '../../../styles/global';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { TyTicket } from '../../../types/Entities/tyTicket';
 import { DrawerParamList } from '../../../types/navigation';
 
-export default function CategoryScreen() {
+export default function TyTicketScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [viewItem, setViewItem] = useState<Category | null>(null);
-
+    const [tyTickets, setTyTickets] = useState<TyTicket[]>([]);
+    const [viewItem, setViewItem] = useState<TyTicket | null>(null);
 
     // Peticiones
     useFocusEffect(
         useCallback(() => {
             const fetchData = async () => {
                 try {
-                    const data = await CategoryService.getAll();
-                    setCategories(data);
+                    const data = await TyTicketService.getAll();
+                    setTyTickets(data);
                 } catch (error) {
-                    console.error("Error al cargar categorías:", error);
+                    console.error("Error al cargar TyTicket:", error);
                 }
             };
-
+    
             fetchData();
         }, [])
     );
 
-
-    const handleEdit = (item: Category) => {
-        navigation.navigate('CategoryUpdate', {id: Number(item.id)});
+    const handleEdit = (item: TyTicket) => {
+        navigation.navigate('TyTicketUpdate', {id: Number(item.id)});
     };
-
-    const handleDelete = async (item: Category) => {
+    
+    const handleDelete = async (item: TyTicket) => {
         try {
-            await CategoryService.delete(Number(item.id));
-            setCategories(prev => prev.filter(cat => cat.id !== item.id));
+            await TyTicketService.delete(Number(item.id));
+            setTyTickets(prev => prev.filter(cat => cat.id !== item.id));
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         } catch (error) {
-            console.error('Error al eliminar Category:', error);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         }
     };
-
-    const handleView = (item: Category) => {
+    
+    const handleView = (item: TyTicket) => {
         Haptics.selectionAsync();
         setViewItem(item);
     };
-
+    
     const handleClose = () => {
         setViewItem(null);
     };
@@ -84,12 +81,12 @@ export default function CategoryScreen() {
                         <Text
                             className={`${colors.heading} text-xl font-black uppercase italic tracking-[2px]`}
                         >
-                            categorías
+                            Tipos de Entrada
                         </Text>
                         <TouchableOpacity
 
                             onPress={() => {
-                                navigation.navigate('CategoryCreate')
+                                navigation.navigate('TyTicketCreate')
                                 Haptics.selectionAsync();
                             }}
                             className="p-2 bg-blue-500 rounded-full "
@@ -102,8 +99,8 @@ export default function CategoryScreen() {
                     {/* Lista */}
                     <View className="mt-3 max-h-[430px]">
                         <FlatList
-                            data={categories}
-                            ListEmptyComponent={<EmptyList message="No hay categorías" />}
+                            data={tyTickets}
+                            ListEmptyComponent={<EmptyList message="No hay Tipo de Entrada" />}
                             keyExtractor={item => item.id.toString()}
                             showsVerticalScrollIndicator={false}
                             className="mx-1"
@@ -132,3 +129,4 @@ export default function CategoryScreen() {
         </SafeAreaView>
     );
 }
+

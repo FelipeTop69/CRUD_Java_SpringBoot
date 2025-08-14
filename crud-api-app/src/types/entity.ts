@@ -3,4 +3,5 @@ export interface Entidad {
     nombre: string;
     registros: number | 0;
     image: any
+    navigate: string
 }

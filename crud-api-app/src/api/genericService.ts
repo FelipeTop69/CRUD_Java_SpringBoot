@@ -4,7 +4,6 @@ export abstract class GenericService<TWrite, TRead, ID = number> {
     constructor(protected readonly baseUrl: string) { }
 
     async getAll(): Promise<TRead[]> {
-        console.log(`${this.baseUrl}GetAll/`);
         const response = await fetch(`${this.baseUrl}GetAll`);
         if (!response.ok) throw new Error("Error al listar registros");
         return response.json();

@@ -10,39 +10,39 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CategoryService } from '../../../api/Entities/categoryService';
+import { TyTicketService } from '../../../api/Entities/tyTicketService';
 import BackButton from '../../../components/Base/BackButton';
-import CategoryForm from '../../../components/Base/forms/CategoryForm';
+import TyTicketForm from '../../../components/Base/forms/TyTicketForm';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { TyTicket } from '../../../types/Entities/tyTicket';
 import { DrawerParamList } from '../../../types/navigation';
 
-type CategoryUpdateRouteProp = RouteProp<DrawerParamList, 'CategoryUpdate'>;
+type TyTicketUpdateRouteProp = RouteProp<DrawerParamList, 'TyTicketUpdate'>;
 
-export default function CategoryUpdate() {
-    const route = useRoute<CategoryUpdateRouteProp>();
+export default function TyTicketUpdate() {
+    const route = useRoute<TyTicketUpdateRouteProp>();
     const { id } = route.params;
 
-    const [category, setCategory] = useState<Category | null>(null);
+    const [tyTicket, setTyTicket] = useState<TyTicket | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchCategory = async () => {
+        const fetchTyTicket = async () => {
             try {
-                const data = await CategoryService.getById(id);
-                setCategory(data);
+                const data = await TyTicketService.getById(id);
+                setTyTicket(data);
             } catch (error) {
-                console.error('Error al cargar la category:', error);
+                console.error('Error al cargar la tyTicket:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchCategory();
+        fetchTyTicket();
     }, [id]);
 
-    const handleUpdate = async (data: Category) => {
-        await CategoryService.update(data);
+    const handleUpdate = async (data: TyTicket) => {
+        await TyTicketService.update(data);
     };
 
     return (
@@ -57,10 +57,10 @@ export default function CategoryUpdate() {
                         <View className="space-y-6">
                             <View className="flex-row items-center justify-between mb-2">
                                 <View className="w-8 h-8 items-center justify-center">
-                                    <BackButton to='Category'/>
+                                    <BackButton to='TyTicket'/>
                                 </View>
                                 <Text className={`${colors.heading} text-2xl font-bold text-center flex-1`}>
-                                    Editar Categoría
+                                    Editar Tipo de Entrada
                                 </Text>
                                 <View className="w-8 h-8" />
                             </View>
@@ -79,15 +79,15 @@ export default function CategoryUpdate() {
                                 <View className="flex-1 justify-center items-center mt-10">
                                     <ActivityIndicator size="large" color="#3B82F6" />
                                 </View>
-                            ) : category ? (
-                                <CategoryForm
-                                    initialData={category}
+                            ) : tyTicket ? (
+                                <TyTicketForm
+                                    initialData={tyTicket}
                                     onSubmit={handleUpdate}
                                     submitLabel="Actualizar Categoría"
                                 />
                             ) : (
                                 <Text className="text-center text-red-500 mt-10">
-                                    No se pudo cargar la categoría.
+                                    No se pudo cargar el tipo de ticket.
                                 </Text>
                             )}
                         </View>

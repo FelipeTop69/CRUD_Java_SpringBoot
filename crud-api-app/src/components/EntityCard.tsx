@@ -1,3 +1,6 @@
+import type { DrawerNavigationProp } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -7,13 +10,10 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import * as Haptics from 'expo-haptics';
-import { colors } from '../themes';
-import { useNavigation } from '@react-navigation/native';
-import type { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerParamList } from '../types/navigation';
 import { routeMap } from '../navigation/routeMap';
+import { colors } from '../themes';
 import { Entidad } from '../types/entity';
+import { DrawerParamList } from '../types/navigation';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -33,13 +33,13 @@ export default function EntityCard({ item, index }: Props) {
     const handlePress = () => {
         Haptics.selectionAsync();
 
-        const key = item.nombre.toLowerCase().trim();
+        const key = item.navigate.toLowerCase().trim();
         const route = routeMap[key];
 
         if (route) {
             navigation.navigate(route);
         } else {
-            console.warn(`No se encontró ruta para la entidad: ${item.nombre}`);
+            console.warn(`No se encontró ruta para la entidad: ${item.navigate}`);
         }
     };
 

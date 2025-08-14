@@ -1,6 +1,7 @@
 import type { DrawerParamList } from '../types/navigation';
 
 export const routeMap: Record<string, keyof DrawerParamList> = {
-    inicio: 'Home',
-    categorias: 'Category',
+    inicioNav: 'Home',
+    categorynav: 'Category',
+    tyticketnav: 'TyTicket',
 };

@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { TyTicket } from '../../../types/Entities/tyTicket';
 import { DrawerParamList } from '../../../types/navigation';
 
 type Props = {
-    initialData?: Category;
-    onSubmit: (data: Category) => Promise<void>;
+    initialData?: TyTicket;
+    onSubmit: (data: TyTicket) => Promise<void>;
     submitLabel?: string;
 };
 
-export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
+export default function TyTicketForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [alertVisible, setAlertVisible] = useState(false);
@@ -37,7 +37,7 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
     const handleSubmit = async () => {
         if (!name.trim()) {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            setAlertMessage('El nombre de la categoría es obligatorio.');
+            setAlertMessage('El nombre de del tipo de entrada es obligatorio.');
             setAlertSuccess(false);
             setAlertVisible(true);
             return;
@@ -60,7 +60,6 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
         }
     };
 
-
     return (
         <View className="space-y-4 mx-2">
             <View className='mb-6'>
@@ -68,7 +67,7 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
                 <TextInput
                     value={name}
                     onChangeText={setName}
-                    placeholder="Nombre de la categoría"
+                    placeholder="Nombre del tipo de entrada"
                     placeholderTextColor="#999"
                     className="p-4 bg-white border border-gray-300 focus:border-blue-500 rounded-full text-base"
                     returnKeyType="next"
@@ -112,7 +111,7 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
                 onConfirmPressed={() => {
                     setAlertVisible(false);
                     if (alertSuccess) {
-                        navigation.navigate('Category');
+                        navigation.navigate('TyTicket');
                     }
                 }}
 
