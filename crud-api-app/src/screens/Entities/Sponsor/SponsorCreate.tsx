@@ -6,6 +6,7 @@ import BackButton from '../../../components/Base/BackButton';
 import SponsorForm from '../../../components/Base/forms/SponsorForm';
 import { colors } from '../../../themes';
 import { Sponsor } from '../../../types/Entities/sponsor';
+import { images } from '../../../utils/assetsMap';
 
 export default function SponsorCreate() {
     const handleCreate = async (data: Sponsor) => {
@@ -37,7 +38,7 @@ export default function SponsorCreate() {
                                 <Image
                                     className="h-64 w-64 rounded-2xl"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 

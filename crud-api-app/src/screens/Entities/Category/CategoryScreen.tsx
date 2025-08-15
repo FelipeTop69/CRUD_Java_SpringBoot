@@ -19,6 +19,7 @@ import { globalStyles } from '../../../styles/global';
 import { colors } from '../../../themes';
 import { Category } from '../../../types/Entities/category';
 import { DrawerParamList } from '../../../types/navigation';
+import { images } from '../../../utils/assetsMap';
 
 export default function CategoryScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
@@ -73,7 +74,7 @@ export default function CategoryScreen() {
                 {/* Imagen superior */}
                 <View className="flex-row justify-center items-center rounded-xl mb-4">
                     <Image
-                        source={require('../../../../assets/img/ejemplo/7.png')}
+                        source={images.view_screen}
                         className="w-80 h-80"
                     />
                 </View>

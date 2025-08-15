@@ -16,6 +16,7 @@ import TyTicketForm from '../../../components/Base/forms/TyTicketForm';
 import { colors } from '../../../themes';
 import { TyTicket } from '../../../types/Entities/tyTicket';
 import { DrawerParamList } from '../../../types/navigation';
+import { images } from '../../../utils/assetsMap';
 
 type TyTicketUpdateRouteProp = RouteProp<DrawerParamList, 'TyTicketUpdate'>;
 
@@ -70,7 +71,7 @@ export default function TyTicketUpdate() {
                                 <Image
                                     className="h-64 w-64 rounded-2xl"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 

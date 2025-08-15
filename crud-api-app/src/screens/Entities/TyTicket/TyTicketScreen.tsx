@@ -19,6 +19,7 @@ import { globalStyles } from '../../../styles/global';
 import { colors } from '../../../themes';
 import { TyTicket } from '../../../types/Entities/tyTicket';
 import { DrawerParamList } from '../../../types/navigation';
+import { images } from '../../../utils/assetsMap';
 
 export default function TyTicketScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
@@ -71,7 +72,7 @@ export default function TyTicketScreen() {
                 {/* Imagen superior */}
                 <View className="flex-row justify-center items-center rounded-xl mb-4">
                     <Image
-                        source={require('../../../../assets/img/ejemplo/7.png')}
+                        source={images.view_screen}
                         className="w-80 h-80"
                     />
                 </View>

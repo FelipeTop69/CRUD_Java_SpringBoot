@@ -6,6 +6,7 @@ import BackButton from '../../../components/Base/BackButton';
 import CategoryForm from '../../../components/Base/forms/CategoryForm';
 import { colors } from '../../../themes';
 import { Category } from '../../../types/Entities/category';
+import { images } from '../../../utils/assetsMap';
 
 export default function CategoryCreate() {
     const handleCreate = async (data: Category) => {
@@ -35,9 +36,9 @@ export default function CategoryCreate() {
                             {/* Imagen */}
                             <View className="flex-row justify-center">
                                 <Image
-                                    className="h-64 w-64 rounded-2xl"
+                                    className="h-64 w-64"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { XCircleIcon } from 'react-native-heroicons/outline';
 import { colors } from '../../themes';
+import { images } from '../../utils/assetsMap';
 
 type ModalOptions = {
     type: 'slide';
@@ -91,7 +92,7 @@ const ModalDetails = <T extends Record<string, any>>({
 
                     <View style={styles.content}>
                         <Image
-                            source={require('../../../assets/img/ejemplo/1.png')}
+                            source={images.register_detail}
                             style={styles.image}
                             resizeMode="contain"
                         />
@@ -172,9 +173,6 @@ const styles = StyleSheet.create({
     image: {
         width: 130,
         height: 130,
-        borderRadius: 100,
-        borderWidth: 3,
-        borderColor: '#e5e7eb',
     },
     textContainer: {
         width: '100%',

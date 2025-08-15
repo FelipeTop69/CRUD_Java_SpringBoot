@@ -5,14 +5,14 @@ import { Image, Text, View } from 'react-native';
 import CategoryCreate from '../screens/Entities/Category/CategoryCreate';
 import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import CategoryUpdate from '../screens/Entities/Category/CategoryUpdate';
-import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
-import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
-import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 import TyTicketCreate from '../screens/Entities/TyTicket/TyTicketCreate';
 import TyTicketScreen from '../screens/Entities/TyTicket/TyTicketScreen';
 import TyTicketUpdate from '../screens/Entities/TyTicket/TyTicketUpdate';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
+import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
+import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
+import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -20,7 +20,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     return (
         <DrawerContentScrollView {...props}>
             <View className="p-4 items-center">
-                <Image source={require('../../assets/favicon.png')} className='w-24 h-24' />
+                <Image source={require('../../assets/img/img-ico-event.png')} className='w-44 h-44' />
                 <Text className="mt-2 text-base font-semibold">
                     Bienvenido(a)
                 </Text>

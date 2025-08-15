@@ -6,6 +6,7 @@ import BackButton from '../../../components/Base/BackButton';
 import TyTicketForm from '../../../components/Base/forms/TyTicketForm';
 import { colors } from '../../../themes';
 import { TyTicket } from '../../../types/Entities/tyTicket';
+import { images } from '../../../utils/assetsMap';
 
 export default function TyTicketCreate() {
     const handleCreate = async (data: TyTicket) => {
@@ -37,7 +38,7 @@ export default function TyTicketCreate() {
                                 <Image
                                     className="h-64 w-64 rounded-2xl"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 

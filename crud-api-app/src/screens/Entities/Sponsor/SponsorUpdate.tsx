@@ -16,6 +16,7 @@ import SponsorForm from '../../../components/Base/forms/SponsorForm';
 import { colors } from '../../../themes';
 import { Sponsor } from '../../../types/Entities/sponsor';
 import { DrawerParamList } from '../../../types/navigation';
+import { images } from '../../../utils/assetsMap';
 
 type SponsorUpdateRouteProp = RouteProp<DrawerParamList, 'SponsorUpdate'>;
 
@@ -70,7 +71,7 @@ export default function SponsorUpdate() {
                                 <Image
                                     className="h-64 w-64 rounded-2xl"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 

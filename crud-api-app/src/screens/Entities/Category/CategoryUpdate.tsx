@@ -16,6 +16,7 @@ import CategoryForm from '../../../components/Base/forms/CategoryForm';
 import { colors } from '../../../themes';
 import { Category } from '../../../types/Entities/category';
 import { DrawerParamList } from '../../../types/navigation';
+import { images } from '../../../utils/assetsMap';
 
 type CategoryUpdateRouteProp = RouteProp<DrawerParamList, 'CategoryUpdate'>;
 
@@ -70,7 +71,7 @@ export default function CategoryUpdate() {
                                 <Image
                                     className="h-64 w-64 rounded-2xl"
                                     resizeMode="cover"
-                                    source={require('../../../../assets/img/ejemplo/4.png')}
+                                    source={images.actions_screen}
                                 />
                             </View>
 
