@@ -10,7 +10,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import { routeMap } from '../navigation/routeMap';
+import { routeMap, RouteMapKey  } from '../navigation/routeMap';
 import { colors } from '../themes';
 import { Entidad } from '../types/entity';
 import { DrawerParamList } from '../types/navigation';
@@ -32,14 +32,13 @@ export default function EntityCard({ item, index }: Props) {
 
     const handlePress = () => {
         Haptics.selectionAsync();
+        const key = item.navigate.toLowerCase().trim() as RouteMapKey; // Conversión segura
 
-        const key = item.navigate.toLowerCase().trim();
-        const route = routeMap[key];
-
-        if (route) {
+        if (key in routeMap) {
+            const route = routeMap[key];
             navigation.navigate(route);
         } else {
-            console.warn(`No se encontró ruta para la entidad: ${item.navigate}`);
+            console.warn(`Ruta no válida: ${item.navigate}`);
         }
     };
 

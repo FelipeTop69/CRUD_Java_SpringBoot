@@ -3,6 +3,7 @@ import {
     Animated,
     Dimensions,
     Easing,
+    Image,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -71,15 +72,14 @@ const Modal: React.FC<ModalProps> = ({ visible, options, duration, onClose, item
                     </TouchableOpacity>
 
                     {/* Imagen decorativa */}
-                    {/* {item?.image && (
-                        <Image
-                            source={item.image}
-                            style={styles.image}
-                            resizeMode="contain"
-                        />
-                    )} */}
+                    <Image
+                        source={require('../../../assets/img/ejemplo/1.png')}
+                        style={styles.image}
+                        resizeMode="contain"
+                    />
 
                     {/* Nombre de la categoría */}
+                    <Text style={styles.title}>{item?.name}</Text>
                     <Text style={styles.title}>{item?.name}</Text>
                 </View>
             </Animated.View>
