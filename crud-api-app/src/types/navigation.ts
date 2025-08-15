@@ -4,50 +4,50 @@ export type DrawerParamList = {
     // Categoria
     Category: undefined;
     CategoryCreate: undefined;
-    CategoryUpdate: {id: number};
+    CategoryUpdate: { id: number };
 
     // Tipo de Ticket
     TyTicket: undefined;
     TyTicketCreate: undefined;
-    TyTicketUpdate: {id: number};
+    TyTicketUpdate: { id: number };
 
     // Patrocinador
     Sponsor: undefined;
     SponsorCreate: undefined;
-    SponsorUpdate: {id: number};
+    SponsorUpdate: { id: number };
 
     // Ubiacion
     Location: undefined;
     LocationCreate: undefined;
-    LocationUpdate: {id: number};
+    LocationUpdate: { id: number };
 
     // Organiador
     Organizer: undefined;
     OrganizerCreate: undefined;
-    OrganizerUpdate: {id: number};
+    OrganizerUpdate: { id: number };
 
     // Participante
     Participant: undefined;
     ParticipantCreate: undefined;
-    ParticipantUpdate: {id: number};
+    ParticipantUpdate: { id: number };
 
     // Evento
     Event: undefined;
     EventCreate: undefined;
-    EventUpdate: {id: number};
+    EventUpdate: { id: number };
 
     // Ticket
     Ticket: undefined;
     TicketCreate: undefined;
-    TicketUpdate: {id: number};
+    TicketUpdate: { id: number };
 
     // Evento Sponsor
     EventSponsor: undefined;
     EventSponsorCreate: undefined;
-    EventSponsorUpdate: {id: number};
+    EventSponsorUpdate: { id: number };
 
     // Organizador
     ParticipantEvent: undefined;
     ParticipantEventCreate: undefined;
-    ParticipantEventUpdate: {id: number};
+    ParticipantEventUpdate: { id: number };
 };
