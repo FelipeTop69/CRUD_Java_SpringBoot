@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Image, Text, View, ActivityIndicator } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CountRegistersService } from '../api/countRegisterServices';
 import EmptyList from '../components/EmptyList';
 import EntidadCard from '../components/EntityCard';
 import { colors } from '../themes';
 import { Entidad } from '../types/entity';
 import { images } from '../utils/assetsMap';
-import { CountRegistersService } from '../api/countRegisterServices';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
     const [entidades, setEntidades] = useState<Entidad[]>([]);
@@ -46,6 +46,48 @@ export default function HomeScreen() {
                     registros: counts.locations,
                     image: images.location_home,
                     navigate: 'locationnav'
+                },
+                {
+                    id: 5,
+                    nombre: 'Organizadores',
+                    registros: counts.organizers,
+                    image: images.organizer_home,
+                    navigate: 'organizernav'
+                },
+                {
+                    id: 6,
+                    nombre: 'Participantes',
+                    registros: counts.participants,
+                    image: images.participant_home,
+                    navigate: 'participantnav'
+                },
+                {
+                    id: 7,
+                    nombre: 'Eventos',
+                    registros: counts.events,
+                    image: images.event_home,
+                    navigate: 'eventnav'
+                },
+                {
+                    id: 8,
+                    nombre: 'Entradas',
+                    registros: counts.tickets,
+                    image: images.ticket_home,
+                    navigate: 'ticketnav'
+                },
+                {
+                    id: 9,
+                    nombre: 'EventoPatrocinadores',
+                    registros: counts.eventSponsors,
+                    image: images.pivote_home,
+                    navigate: 'eventsponsornav'
+                },
+                {
+                    id: 10,
+                    nombre: 'ParticipantesEventos',
+                    registros: counts.participantEvents,
+                    image: images.pivote_home,
+                    navigate: 'participanteventsnav'
                 }
             ];
 

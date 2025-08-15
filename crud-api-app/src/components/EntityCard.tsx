@@ -68,7 +68,10 @@ export default function EntityCard({ item, index }: Props) {
                         resizeMode="cover"
                     />
 
-                    <Text className={`${colors.heading} text-lg font-semibold text-center`}>
+                    <Text 
+                        className={`${colors.heading} text-lg font-semibold text-center`}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
                         {item.nombre}
                     </Text>
 
