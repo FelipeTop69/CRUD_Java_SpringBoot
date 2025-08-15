@@ -43,7 +43,7 @@ export default function LocationCreate() {
                             </View>
 
                             {/* Formulario */}
-                            <LocationForm onSubmit={handleCreate} submitLabel="Crear Patrocinador" />
+                            <LocationForm onSubmit={handleCreate} submitLabel="Crear Ubicación" />
                         </View>
                     </View>
                 </ScrollView>

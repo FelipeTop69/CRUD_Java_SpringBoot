@@ -34,6 +34,12 @@ npm run web
 npm run ios
 ```
 
+> Limpiar
+```bash
+npx expo start --clear
+npx react-native start --reset-cache
+```
+
 </br>
 
 ### Swagger

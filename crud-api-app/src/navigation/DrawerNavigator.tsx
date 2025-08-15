@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import React from 'react';
-import { ActivityIndicator, Image, View, Text } from 'react-native';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
 type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
@@ -15,17 +15,17 @@ export type Category = {
 export const CATEGORIES: Category[] = [
     {
         label: "Configuración",
-        icon: "settings-outline",
+        icon: "construct-outline",
         entities: ["Category", "TyTicket", "Location"],
     },
     {
-        label: "Personas",
-        icon: "people-outline",
+        label: "Personal",
+        icon: "man-outline",
         entities: ["Sponsor", "Organizer", "Participant"],
     },
     {
-        label: "Eventos",
-        icon: "calendar-outline",
+        label: "Logística",
+        icon: "dice-outline",
         entities: ["Event", "Ticket", "EventSponsor", "ParticipantEvent"],
     },
 ];
@@ -228,7 +228,7 @@ const ENTITY_CONFIG: Record<string, EntityConfig> = {
     }
 };
 
-// En tus estilos globales
+// Estilos globales
 const DRAWER_SCREEN_OPTIONS = {
     drawerActiveTintColor: 'blue',
     drawerHideStatusBarOnOpen: true,
@@ -260,13 +260,13 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     return (
         <DrawerContentScrollView {...props} contentContainerStyle={{ flexGrow: 1 }}>
             {/* Encabezado con imagen */}
-            <View className="p-4 items-center bg-white border-b border-gray-100">
+            <View className="p-4 items-center bg-white border-b-4 border-blue-100">
                 <Image 
                     source={require('../../assets/img/img-ico-event.png')} 
-                    className="w-32 h-32 rounded-full"
+                    className="w-52 h-52 rounded-full"
                     resizeMode="contain"
                 />
-                <Text className="mt-2 text-lg font-semibold text-gray-800">
+                <Text className="text-lg font-semibold text-gray-800">
                     Bienvenido(a)
                 </Text>
             </View>
@@ -281,11 +281,11 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 focused={currentRoute === 'Home'}
                 activeBackgroundColor="rgba(59, 130, 246, 0.1)"
                 activeTintColor="#2563eb"
-                style={{ marginTop: 8 }}
+                style={{ marginTop: 16, marginBottom: 16 }}
             />
 
             {/* Línea divisora */}
-            <View className="mx-4 my-2 h-px bg-gray-200" />
+            <View className="mx-4 my-2 h-px bg-gray-400" />
 
             {/* Categorías con acordeón */}
             {CATEGORIES.map((category) => {
@@ -316,6 +316,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                             focused={isCategoryActive}
                             activeBackgroundColor="rgba(59, 130, 246, 0.1)"
                             activeTintColor="#2563eb"
+                            style={{marginBottom: 4}}
                         />
 
                         {expandedCategories[category.label] && category.entities.map((entityName) => {
@@ -343,6 +344,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                                 />
                             );
                         })}
+                        <View className="mx-4 my-2 h-px bg-gray-400" />
                     </View>
                 );
             })}
