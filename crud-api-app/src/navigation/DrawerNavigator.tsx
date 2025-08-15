@@ -5,14 +5,14 @@ import { Image, Text, View } from 'react-native';
 import CategoryCreate from '../screens/Entities/Category/CategoryCreate';
 import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import CategoryUpdate from '../screens/Entities/Category/CategoryUpdate';
+import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
+import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
+import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 import TyTicketCreate from '../screens/Entities/TyTicket/TyTicketCreate';
 import TyTicketScreen from '../screens/Entities/TyTicket/TyTicketScreen';
 import TyTicketUpdate from '../screens/Entities/TyTicket/TyTicketUpdate';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
-import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
-import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
-import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -37,7 +37,7 @@ export default function DrawerNavigator() {
             initialRouteName="Home"
             drawerContent={CustomDrawerContent}
             screenOptions={{
-                drawerActiveTintColor: 'red',
+                drawerActiveTintColor: 'blue',
                 drawerHideStatusBarOnOpen: true,
                 drawerItemStyle: {
                     marginVertical: 8,
@@ -52,7 +52,7 @@ export default function DrawerNavigator() {
                     drawerLabel: 'Inicio',
                     title: 'Gestión de Eventos',
                     drawerIcon: ({ color, size }) => (
-                        <Ionicons name="home" size={size} color={color} />
+                        <Ionicons name="home-outline" size={size} color={color} />
                     ),
                 }}
             />
@@ -65,7 +65,7 @@ export default function DrawerNavigator() {
                     drawerLabel: 'Categoría',
                     title: 'Categorías',
                     drawerIcon: ({ color, size }) => (
-                        <Ionicons name="grid" size={size} color={color} />
+                        <Ionicons name="grid-outline" size={size} color={color} />
                     ),
                 }}
             />
@@ -96,7 +96,7 @@ export default function DrawerNavigator() {
                     drawerLabel: 'Tipo de Entrada',
                     title: 'Tipos de Entrada',
                     drawerIcon: ({ color, size }) => (
-                        <Ionicons name="grid" size={size} color={color} />
+                        <Ionicons name="pricetag-outline" size={size} color={color} />
                     ),
                 }}
             />
@@ -127,7 +127,7 @@ export default function DrawerNavigator() {
                     drawerLabel: 'Patrocinador',
                     title: 'Patrocinadores',
                     drawerIcon: ({ color, size }) => (
-                        <Ionicons name="grid" size={size} color={color} />
+                        <Ionicons name="people-outline" size={size} color={color} />
                     ),
                 }}
             />
