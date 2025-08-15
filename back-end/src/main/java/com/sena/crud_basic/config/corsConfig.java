@@ -20,7 +20,7 @@ public class corsConfig {
         config.setAllowedOrigins(Arrays.asList(
             "http://127.0.0.1:5500",
             "http://localhost:8081",
-            "exp://172.30.5.55:8081"
+            "exp://192.168.1.8:8081"
         ));
 
         // config.addAllowedOrigin("n cantidad de servidores");

@@ -44,7 +44,7 @@ export default function CategoryScreen() {
 
 
     const handleEdit = (item: Category) => {
-        navigation.navigate('CategoryUpdate', {id: Number(item.id)});
+        navigation.navigate('CategoryUpdate', { id: Number(item.id) });
     };
 
     const handleDelete = async (item: Category) => {
@@ -53,7 +53,7 @@ export default function CategoryScreen() {
             setCategories(prev => prev.filter(cat => cat.id !== item.id));
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         } catch (error) {
-            console.error('Error al eliminar Category:', error);
+            console.error(error instanceof Error ? error.message : 'Error al eliminar Category');
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         }
     };
@@ -125,6 +125,10 @@ export default function CategoryScreen() {
             <ModalDetails
                 visible={viewItem !== null}
                 item={viewItem ?? undefined}
+                fields={[
+                    { key: 'name', label: 'Nombre' },
+                    { key: 'description', label: 'Desripcion' },
+                ]}
                 options={{ type: 'slide', from: 'bottom' }}
                 duration={500}
                 onClose={handleClose}

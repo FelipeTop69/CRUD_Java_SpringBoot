@@ -33,3 +33,8 @@ npm run android
 npm run web
 npm run ios
 ```
+
+</br>
+
+### Swagger
+Acceder a interfaz visual de swagger: http://localhost:8080/swagger-ui/index.html#/

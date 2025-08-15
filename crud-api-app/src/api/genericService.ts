@@ -3,16 +3,23 @@ import { ResponseDTO } from "../types/response";
 export abstract class GenericService<TWrite, TRead, ID = number> {
     constructor(protected readonly baseUrl: string) { }
 
+    private async handleResponse<T>(response: Response): Promise<T> {
+        const data = await response.json();
+        if (!response.ok) {
+            // Lanza el mensaje de error específico de la API
+            throw new Error(data.message || "Error en la operación");
+        }
+        return data;
+    }
+
     async getAll(): Promise<TRead[]> {
         const response = await fetch(`${this.baseUrl}GetAll`);
-        if (!response.ok) throw new Error("Error al listar registros");
-        return response.json();
+        return this.handleResponse<TRead[]>(response);
     }
 
     async getById(id: ID): Promise<TRead> {
         const response = await fetch(`${this.baseUrl}GetById/${id}`);
-        if (!response.ok) throw new Error("Error al obtener registro");
-        return response.json();
+        return this.handleResponse<TRead>(response);
     }
 
     async create(item: TWrite): Promise<ResponseDTO<TRead>> {
@@ -21,8 +28,7 @@ export abstract class GenericService<TWrite, TRead, ID = number> {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(item),
         });
-        if (!response.ok) throw new Error("Error al crear");
-        return response.json();
+        return this.handleResponse<ResponseDTO<TRead>>(response);
     }
 
     async update(item: TWrite): Promise<ResponseDTO<TRead>> {
@@ -31,15 +37,13 @@ export abstract class GenericService<TWrite, TRead, ID = number> {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(item),
         });
-        if (!response.ok) throw new Error("Error al actualizar");
-        return response.json();
+        return this.handleResponse<ResponseDTO<TRead>>(response);
     }
 
     async delete(id: ID): Promise<ResponseDTO> {
         const response = await fetch(`${this.baseUrl}Delete/${id}`, {
             method: "DELETE",
         });
-        if (!response.ok) throw new Error("Error al eliminar");
-        return response.json();
+        return this.handleResponse<ResponseDTO>(response);
     }
 }

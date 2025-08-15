@@ -1,5 +1,5 @@
 export interface ResponseDTO<T = any> {
-    status: number;
+    status: string;
     message: string;
     object?: T;
 }

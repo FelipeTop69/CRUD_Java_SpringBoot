@@ -11,21 +11,39 @@ import {
 } from 'react-native';
 import { XCircleIcon } from 'react-native-heroicons/outline';
 import { Category } from '../../types/Entities/category';
+import { globalStyles } from '../../styles/global';
+import { colors } from '../../themes';
 
 type ModalOptions = {
     type: 'slide';
     from: 'top' | 'bottom';
 };
 
-type ModalProps = {
+type ModalProps<T = any> = {
     visible: boolean;
     options: ModalOptions;
     duration: number;
     onClose: () => void;
-    item?: Category;
+    item?: T;
+    fields?: {
+        key: string;
+        label: string;
+        render?: (value: any) => React.ReactNode;
+    }[];
 };
 
-const Modal: React.FC<ModalProps> = ({ visible, options, duration, onClose, item }) => {
+const ModalDetails = <T extends Record<string, any>>({
+    visible,
+    options,
+    duration,
+    onClose,
+    item,
+    fields = [
+        { key: 'name', label: 'Nombre' },
+        { key: 'description', label: 'Descripción' }
+    ]
+}: ModalProps<T>) => {
+
     const { height } = Dimensions.get('screen');
     const startPointY = options?.from === 'top' ? -height : height;
     const transY = useRef(new Animated.Value(startPointY)).current;
@@ -61,40 +79,61 @@ const Modal: React.FC<ModalProps> = ({ visible, options, duration, onClose, item
     return (
         <>
             <Animated.View
-                pointerEvents="none"
+                pointerEvents={visible ? 'auto' : 'none'}
                 style={[styles.outerContainer, { opacity: generateBackgroundOpacity() }]}
             />
             <Animated.View style={[styles.container, { transform: [{ translateY: transY }] }]}>
                 <View style={styles.innerContainer}>
-                    {/* Botón de cierre */}
-                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                        <XCircleIcon size={32} color="#374151" />
+                    <View style={styles.header}>
+                        <Text style={styles.title}>{item?.name || 'Detalles'}</Text>
+                        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                            <XCircleIcon size={28} color="#6b7280" />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.content}>
+                        <Image
+                            source={require('../../../assets/img/ejemplo/1.png')}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+
+                        <View style={styles.textContainer}>
+                            {fields.map(({ key, label, render }) => (
+                                item && key in item && (
+                                    <View key={key} style={styles.fieldContainer}>
+                                        <Text style={styles.label}>{label}:</Text>
+                                        {render ? (
+                                            render(item[key])
+                                        ) : (
+                                            <Text style={styles.value}>
+                                                {item[key]?.toString() || 'No especificado'}
+                                            </Text>
+                                        )}
+                                    </View>
+                                )
+                            ))}
+                        </View>
+                    </View>
+
+                    <TouchableOpacity
+                        onPress={onClose}
+                        style={styles.closeFooterButton}
+                    >
+                        <Text style={styles.closeButtonText}>Cerrar</Text>
                     </TouchableOpacity>
-
-                    {/* Imagen decorativa */}
-                    <Image
-                        source={require('../../../assets/img/ejemplo/1.png')}
-                        style={styles.image}
-                        resizeMode="contain"
-                    />
-
-                    {/* Nombre de la categoría */}
-                    <Text style={styles.title}>{item?.name}</Text>
-                    <Text style={styles.title}>{item?.name}</Text>
                 </View>
             </Animated.View>
         </>
     );
 };
 
-export default Modal;
-
 const styles = StyleSheet.create({
     outerContainer: {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: '#2b4369',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     container: {
         position: 'absolute',
@@ -104,33 +143,74 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     innerContainer: {
-        width: '80%',
+        width: '90%',
+        maxWidth: 400,
         backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 20,
+        borderRadius: 16,
+        overflow: 'hidden',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        shadowColor: '#000',
-        shadowOpacity: 0.15,
-        shadowOffset: { width: 0, height: 4 },
-        shadowRadius: 10,
-        elevation: 5,
-    },
-    closeButton: {
-        position: 'absolute',
-        top: 12,
-        right: 12,
-        padding: 4,
-        zIndex: 10,
-    },
-    image: {
-        width: 100,
-        height: 100,
-        marginBottom: 16,
+        padding: 20,
+        backgroundColor: '#f9fafb',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e5e7eb',
     },
     title: {
         fontSize: 20,
-        fontWeight: 'bold',
-        color: '#1f2937',
-        textAlign: 'center',
+        fontWeight: '600',
+        color: '#111827',
+        flex: 1,
+    },
+    closeButton: {
+        marginLeft: 10,
+    },
+    content: {
+        padding: 20,
+        alignItems: 'center',
+    },
+    image: {
+        width: 130,
+        height: 130,
+        borderRadius: 100,
+        borderWidth: 3,
+        borderColor: '#e5e7eb',
+    },
+    textContainer: {
+        width: '100%',
+        marginTop: 10,
+    },
+    fieldContainer: {
+        marginBottom: 12,
+    },
+    label: {
+        fontSize: 14,
+        color: '#6b7280',
+        marginTop: 12,
+        marginBottom: 4,
+    },
+    value: {
+        fontSize: 16,
+        color: '#111827',
+        fontWeight: '500',
+        padding: 8,
+        backgroundColor: '#f3f4f6',
+        borderRadius: 8,
+    },
+    closeFooterButton: {
+        padding: 16,
+        backgroundColor: colors.button,
+        alignItems: 'center',
+        margin: 20,
+        borderRadius: 12,
+    },
+    closeButtonText: {
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
     },
 });
+
+export default ModalDetails;

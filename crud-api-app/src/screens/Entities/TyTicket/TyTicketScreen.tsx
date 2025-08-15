@@ -51,6 +51,7 @@ export default function TyTicketScreen() {
             setTyTickets(prev => prev.filter(cat => cat.id !== item.id));
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         } catch (error) {
+            console.error(error instanceof Error ? error.message : 'Error al eliminar TyTicket');
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         }
     };

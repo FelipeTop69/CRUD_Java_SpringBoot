@@ -53,8 +53,10 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
                 setDescription('');
             }
         } catch (error) {
-            console.error(error);
-            setAlertMessage('Ocurrió un error al guardar.');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            setAlertMessage(
+                error instanceof Error ? error.message : 'Error al crear la categoría'
+            );
             setAlertSuccess(false);
             setAlertVisible(true);
         }
