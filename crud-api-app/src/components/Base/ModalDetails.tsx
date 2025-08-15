@@ -4,6 +4,8 @@ import {
     Dimensions,
     Easing,
     Image,
+    ScrollView // Importamos ScrollView
+    ,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -90,29 +92,40 @@ const ModalDetails = <T extends Record<string, any>>({
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.content}>
+                    {/* Contenedor principal con altura fija */}
+                    <View style={styles.mainContent}>
                         <Image
                             source={images.register_detail}
                             style={styles.image}
                             resizeMode="contain"
                         />
 
-                        <View style={styles.textContainer}>
-                            {fields.map(({ key, label, render }) => (
-                                item && key in item && (
-                                    <View key={key} style={styles.fieldContainer}>
-                                        <Text style={styles.label}>{label}:</Text>
-                                        {render ? (
-                                            render(item[key])
-                                        ) : (
-                                            <Text style={styles.value}>
-                                                {item[key]?.toString() || 'No especificado'}
-                                            </Text>
-                                        )}
-                                    </View>
-                                )
-                            ))}
-                        </View>
+                        {/* ScrollView para los campos */}
+                        <ScrollView
+                            style={styles.scrollContainer}
+                            contentContainerStyle={styles.scrollContent}
+                        >
+                            <View style={styles.textContainer}>
+                                {fields.map(({ key, label, render }) => (
+                                    item && key in item && (
+                                        <View key={key} style={styles.fieldContainer}>
+                                            <Text style={styles.label}>{label}:</Text>
+                                            {render ? (
+                                                typeof render(item[key]) === 'string' ? (
+                                                    <Text style={styles.value}>{render(item[key])}</Text>
+                                                ) : (
+                                                    render(item[key])
+                                                )
+                                            ) : (
+                                                <Text style={styles.value}>
+                                                    {item[key]?.toString() || 'No especificado'}
+                                                </Text>
+                                            )}
+                                        </View>
+                                    )
+                                ))}
+                            </View>
+                        </ScrollView>
                     </View>
 
                     <TouchableOpacity
@@ -144,6 +157,7 @@ const styles = StyleSheet.create({
     innerContainer: {
         width: '90%',
         maxWidth: 400,
+        maxHeight: '80%', // Altura máxima del modal
         backgroundColor: 'white',
         borderRadius: 16,
         overflow: 'hidden',
@@ -166,17 +180,25 @@ const styles = StyleSheet.create({
     closeButton: {
         marginLeft: 10,
     },
-    content: {
-        padding: 20,
-        alignItems: 'center',
+    mainContent: {
+        width: 370, 
+        height: 342
     },
     image: {
         width: 130,
         height: 130,
+        alignSelf: 'center',
+        marginTop: 16,
+    },
+    scrollContainer: {
+        flex: 1, // ScrollView ocupa todo el espacio
+        paddingHorizontal: 20,
+    },
+    scrollContent: {
+        paddingBottom: 20, // Espacio al final del scroll
     },
     textContainer: {
         width: '100%',
-        marginTop: 10,
     },
     fieldContainer: {
         marginBottom: 12,
