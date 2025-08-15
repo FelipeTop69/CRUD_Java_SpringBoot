@@ -22,6 +22,13 @@ const entidades: Entidad[] = [
         registros: 0,
         image: '',
         navigate: 'tyticketnav'
+    },
+    {
+        id: 2,
+        nombre: 'Patrocinadores',
+        registros: 0,
+        image: '',
+        navigate: 'sponsornav'
     }
 ];
 

@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { Sponsor } from '../../../types/Entities/sponsor';
 import { DrawerParamList } from '../../../types/navigation';
 import { commonValidations, validateForm } from '../../../utils/validationsForm';
 import { FieldValidationConfig } from '../../../utils/validationsType';
 
 type Props = {
-    initialData?: Category;
-    onSubmit: (data: Category) => Promise<void>;
+    initialData?: Sponsor;
+    onSubmit: (data: Sponsor) => Promise<void>;
     submitLabel?: string;
 };
 
@@ -21,18 +21,23 @@ const validationConfig: FieldValidationConfig = {
     name: [
         commonValidations.required('El nombre es obligatorio'),
         commonValidations.minLength(3, 'Mínimo 3 caracteres')
+    ],
+    phone: [
+        commonValidations.required('El teléfono es obligatorio'),
+        commonValidations.exactLength(10, 'Debe tener 10 dígitos'),
+        commonValidations.numeric('Solo números permitidos')
     ]
 };
 
-export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
+export default function SponsorForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
     const [formData, setFormData] = useState({
         name: initialData?.name || '',
-        description: initialData?.description || ''
+        phone: initialData?.phone || ''
     });
     
     const [errors, setErrors] = useState<Record<string, string | null>>({
         name: null,
-        description: null
+        phone: null
     });
     
     const [alertVisible, setAlertVisible] = useState(false);
@@ -41,7 +46,12 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
     const handleChange = (field: keyof typeof formData) => (value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        // Filtro solo numeros para el telefono
+        const processedValue = field === 'phone' 
+            ? value.replace(/[^0-9]/g, '').slice(0, 10) 
+            : value;
+            
+        setFormData(prev => ({ ...prev, [field]: processedValue }));
     };
 
     const handleSubmit = async () => {
@@ -63,12 +73,12 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
             });
             showSuccess('¡Operación exitosa!');
             if (!initialData) {
-                setFormData({ name: '', description: '' });
-                setErrors({ name: null, description: null });
+                setFormData({ name: '', phone: '' });
+                setErrors({ name: null, phone: null });
             }
         } catch (error) {
             showError(
-                error instanceof Error ? error.message : 'Error al procesar Category'
+                error instanceof Error ? error.message : 'Error al procesar Sponsor'
             );
         }
     };
@@ -94,7 +104,7 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
                 <TextInput
                     value={formData.name}
                     onChangeText={handleChange('name')}
-                    placeholder="Nombre de la categoría"
+                    placeholder="Nombre del patrocinador"
                     placeholderTextColor="#999"
                     className={`p-4 bg-white border rounded-full text-base ${
                         errors.name ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
@@ -106,15 +116,21 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
             </View>
 
             <View className='mb-4'>
-                <Text className={`${colors.heading} text-xl font-bold mb-1`}>Descripción</Text>
+                <Text className={`${colors.heading} text-xl font-bold mb-1`}>Teléfono</Text>
                 <TextInput
-                    value={formData.description}
-                    onChangeText={handleChange('description')}
-                    placeholder="Descripción opcional"
+                    value={formData.phone}
+                    onChangeText={handleChange('phone')}
+                    placeholder="Teléfono (10 dígitos)"
                     placeholderTextColor="#999"
-                    className="p-4 bg-white border border-gray-300 focus:border-blue-500 rounded-full text-base"
-                    multiline
+                    keyboardType="phone-pad"
+                    className={`p-4 bg-white border rounded-full text-base ${
+                        errors.phone ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                    }`}
+                    maxLength={10}
                 />
+                {errors.phone && (
+                    <Text className="text-red-500 text-xs mt-1 ml-2">{errors.phone}</Text>
+                )}
             </View>
 
             <TouchableOpacity
@@ -141,7 +157,7 @@ export default function CategoryForm({ initialData, onSubmit, submitLabel = 'Gua
                 onConfirmPressed={() => {
                     setAlertVisible(false);
                     if (alertSuccess) {
-                        navigation.navigate('Category');
+                        navigation.navigate('Sponsor');
                     }
                 }}
             />

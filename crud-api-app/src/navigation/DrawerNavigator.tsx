@@ -10,6 +10,9 @@ import TyTicketScreen from '../screens/Entities/TyTicket/TyTicketScreen';
 import TyTicketUpdate from '../screens/Entities/TyTicket/TyTicketUpdate';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
+import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
+import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
+import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -112,6 +115,37 @@ export default function DrawerNavigator() {
                 component={TyTicketUpdate}
                 options={{
                     title: 'Actualizar Tipo de Entrada',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+
+            {/* Entidad Sponsor */}
+            <Drawer.Screen
+                name="Sponsor"
+                component={SponsorScreen}
+                options={{
+                    drawerLabel: 'Patrocinador',
+                    title: 'Patrocinadores',
+                    drawerIcon: ({ color, size }) => (
+                        <Ionicons name="grid" size={size} color={color} />
+                    ),
+                }}
+            />
+
+            <Drawer.Screen
+                name="SponsorCreate"
+                component={SponsorCreate}
+                options={{
+                    title: 'Registrar Patrocinador',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+
+            <Drawer.Screen
+                name="SponsorUpdate"
+                component={SponsorUpdate}
+                options={{
+                    title: 'Actualizar Patrocinador',
                     drawerItemStyle: { display: 'none' },
                 }}
             />

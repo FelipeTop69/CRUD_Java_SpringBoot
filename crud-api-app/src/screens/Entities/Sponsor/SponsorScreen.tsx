@@ -11,19 +11,19 @@ import {
 } from 'react-native';
 import { PlusIcon } from 'react-native-heroicons/outline';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CategoryService } from '../../../api/Entities/categoryService';
+import { SponsorService } from '../../../api/Entities/sponsorService';
 import ModalDetails from '../../../components/Base/ModalDetails';
 import RegisterList from '../../../components/Base/RegisterList';
 import EmptyList from '../../../components/EmptyList';
 import { globalStyles } from '../../../styles/global';
 import { colors } from '../../../themes';
-import { Category } from '../../../types/Entities/category';
+import { Sponsor } from '../../../types/Entities/sponsor';
 import { DrawerParamList } from '../../../types/navigation';
 
-export default function CategoryScreen() {
+export default function SponsorScreen() {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [viewItem, setViewItem] = useState<Category | null>(null);
+    const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+    const [viewItem, setViewItem] = useState<Sponsor | null>(null);
 
 
     // Peticiones
@@ -31,10 +31,10 @@ export default function CategoryScreen() {
         useCallback(() => {
             const fetchData = async () => {
                 try {
-                    const data = await CategoryService.getAll();
-                    setCategories(data);
+                    const data = await SponsorService.getAll();
+                    setSponsors(data);
                 } catch (error) {
-                    console.error("Error al cargar category:", error);
+                    console.error("Error al cargar sponsors:", error);
                 }
             };
 
@@ -43,22 +43,22 @@ export default function CategoryScreen() {
     );
 
 
-    const handleEdit = (item: Category) => {
-        navigation.navigate('CategoryUpdate', { id: Number(item.id) });
+    const handleEdit = (item: Sponsor) => {
+        navigation.navigate('SponsorUpdate', { id: Number(item.id) });
     };
 
-    const handleDelete = async (item: Category) => {
+    const handleDelete = async (item: Sponsor) => {
         try {
-            await CategoryService.delete(Number(item.id));
-            setCategories(prev => prev.filter(cat => cat.id !== item.id));
+            await SponsorService.delete(Number(item.id));
+            setSponsors(prev => prev.filter(cat => cat.id !== item.id));
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         } catch (error) {
-            console.error(error instanceof Error ? error.message : 'Error al eliminar Category');
+            console.error(error instanceof Error ? error.message : 'Error al eliminar Sponsor');
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         }
     };
 
-    const handleView = (item: Category) => {
+    const handleView = (item: Sponsor) => {
         Haptics.selectionAsync();
         setViewItem(item);
     };
@@ -84,12 +84,11 @@ export default function CategoryScreen() {
                         <Text
                             className={`${colors.heading} text-xl font-black uppercase italic tracking-[2px]`}
                         >
-                            categorías
+                            patrocinadores
                         </Text>
                         <TouchableOpacity
-
                             onPress={() => {
-                                navigation.navigate('CategoryCreate')
+                                navigation.navigate('SponsorCreate')
                                 Haptics.selectionAsync();
                             }}
                             className="p-2 bg-blue-500 rounded-full "
@@ -102,8 +101,8 @@ export default function CategoryScreen() {
                     {/* Lista */}
                     <View className="mt-3 max-h-[430px]">
                         <FlatList
-                            data={categories}
-                            ListEmptyComponent={<EmptyList message="No hay categorías" />}
+                            data={sponsors}
+                            ListEmptyComponent={<EmptyList message="No hay Patrocinadores" />}
                             keyExtractor={item => item.id.toString()}
                             showsVerticalScrollIndicator={false}
                             className="mx-1"
@@ -125,10 +124,10 @@ export default function CategoryScreen() {
             <ModalDetails
                 visible={viewItem !== null}
                 item={viewItem ?? undefined}
-                // fields={[
-                //     { key: 'name', label: 'Nombre' },
-                //     { key: 'description', label: 'Desripcion' },
-                // ]}
+                fields={[
+                    { key: 'name', label: 'Nombre' },
+                    { key: 'phone', label: 'Teléfono' },
+                ]}
                 options={{ type: 'slide', from: 'bottom' }}
                 duration={500}
                 onClose={handleClose}

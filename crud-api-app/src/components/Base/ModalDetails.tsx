@@ -10,8 +10,6 @@ import {
     View
 } from 'react-native';
 import { XCircleIcon } from 'react-native-heroicons/outline';
-import { Category } from '../../types/Entities/category';
-import { globalStyles } from '../../styles/global';
 import { colors } from '../../themes';
 
 type ModalOptions = {

@@ -10,7 +10,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import { routeMap, RouteMapKey  } from '../navigation/routeMap';
+import { routeMap, RouteMapKey } from '../navigation/routeMap';
 import { colors } from '../themes';
 import { Entidad } from '../types/entity';
 import { DrawerParamList } from '../types/navigation';

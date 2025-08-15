@@ -10,4 +10,9 @@ export type DrawerParamList = {
     TyTicket: undefined;
     TyTicketCreate: undefined;
     TyTicketUpdate: {id: number};
+
+    // Patrocinador
+    Sponsor: undefined;
+    SponsorCreate: undefined;
+    SponsorUpdate: {id: number};
 };
