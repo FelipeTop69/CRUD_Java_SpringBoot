@@ -15,4 +15,9 @@ export type DrawerParamList = {
     Sponsor: undefined;
     SponsorCreate: undefined;
     SponsorUpdate: {id: number};
+
+    // Ubiacion
+    Location: undefined;
+    LocationCreate: undefined;
+    LocationUpdate: {id: number};
 };

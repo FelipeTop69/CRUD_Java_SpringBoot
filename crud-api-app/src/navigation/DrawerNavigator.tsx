@@ -5,14 +5,17 @@ import { Image, Text, View } from 'react-native';
 import CategoryCreate from '../screens/Entities/Category/CategoryCreate';
 import CategoryScreen from '../screens/Entities/Category/CategoryScreen';
 import CategoryUpdate from '../screens/Entities/Category/CategoryUpdate';
+import LocationCreate from '../screens/Entities/Location/LocationCreate';
+import LocationScreen from '../screens/Entities/Location/LocationScreen';
+import LocationUpdate from '../screens/Entities/Location/LocationUpdate';
+import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
+import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
+import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 import TyTicketCreate from '../screens/Entities/TyTicket/TyTicketCreate';
 import TyTicketScreen from '../screens/Entities/TyTicket/TyTicketScreen';
 import TyTicketUpdate from '../screens/Entities/TyTicket/TyTicketUpdate';
 import HomeScreen from '../screens/HomeScreen';
 import { DrawerParamList } from '../types/navigation';
-import SponsorCreate from '../screens/Entities/Sponsor/SponsorCreate';
-import SponsorScreen from '../screens/Entities/Sponsor/SponsorScreen';
-import SponsorUpdate from '../screens/Entities/Sponsor/SponsorUpdate';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -146,6 +149,37 @@ export default function DrawerNavigator() {
                 component={SponsorUpdate}
                 options={{
                     title: 'Actualizar Patrocinador',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+
+            {/* Entidad Location */}
+            <Drawer.Screen
+                name="Location"
+                component={LocationScreen}
+                options={{
+                    drawerLabel: 'Ubicación',
+                    title: 'Ubicaciones',
+                    drawerIcon: ({ color, size }) => (
+                        <Ionicons name="location-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+
+            <Drawer.Screen
+                name="LocationCreate"
+                component={LocationCreate}
+                options={{
+                    title: 'Registrar Ubicación',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+
+            <Drawer.Screen
+                name="LocationUpdate"
+                component={LocationUpdate}
+                options={{
+                    title: 'Actualizar Ubicación',
                     drawerItemStyle: { display: 'none' },
                 }}
             />

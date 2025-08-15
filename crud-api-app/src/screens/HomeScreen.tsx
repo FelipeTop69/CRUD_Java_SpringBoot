@@ -25,11 +25,18 @@ const entidades: Entidad[] = [
         navigate: 'tyticketnav'
     },
     {
-        id: 2,
+        id: 3,
         nombre: 'Patrocinadores',
         registros: 0,
         image: images.sponsor_home,
         navigate: 'sponsornav'
+    },
+    {
+        id: 4,
+        nombre: 'Ubicaciones',
+        registros: 0,
+        image: images.location_home,
+        navigate: 'locationnav'
     }
 ];
 
