@@ -4,44 +4,44 @@ import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import AwesomeAlert from 'react-native-awesome-alerts';
 import SelectDropdown from 'react-native-select-dropdown';
 import { EventService } from '../../../api/Entities/eventService';
-import { ParticipantService } from '../../../api/Entities/participantService';
+import { SponsorService } from '../../../api/Entities/sponsorService';
 import { colors } from '../../../themes';
 import { Event } from '../../../types/Entities/event';
 import { Location } from '../../../types/Entities/location';
-import { Participant } from '../../../types/Entities/participant';
-import { ParticipantEvent, ParticipantEventResponse } from '../../../types/Entities/participantEvent';
+import { Sponsor } from '../../../types/Entities/sponsor';
 import { commonValidations, validateForm } from '../../../utils/validationsForm';
 import { FieldValidationConfig } from '../../../utils/validationsType';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerParamList } from '../../../types/navigation';
+import { EventSponsorResponse, EventSponsor } from '../../../types/Entities/eventsponsor';
 
 type Props = {
-    initialData?: ParticipantEventResponse;
-    onSubmit: (data: ParticipantEvent) => Promise<void>;
+    initialData?: EventSponsorResponse;
+    onSubmit: (data: EventSponsor) => Promise<void>;
     submitLabel?: string;
 };
 
 const validationConfig: FieldValidationConfig = {
-    participantId: [commonValidations.required('Seleccione un Participante')],
     eventId: [commonValidations.required('Seleccione un Evento')],
+    sponsorId: [commonValidations.required('Seleccione un Patrocinador')],
 };
 
-export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
+export default function EvnSponsorForm({ initialData, onSubmit, submitLabel = 'Guardar' }: Props) {
     const [formData, setFormData] = useState({
-        participantId: initialData?.participantId || 0,
         eventId: initialData?.eventId || 0,
-        participantName: initialData?.participantName || '',
-        eventName: initialData?.eventName || ''
+        sponsorId: initialData?.sponsorId || 0,
+        eventName: initialData?.eventName || '',
+        sponsorName: initialData?.sponsorName || '',
     });
 
     const [errors, setErrors] = useState<Record<string, string | null>>({
-        participantId: null,
-        eventId: null
+        eventId: null,
+        sponsorId: null,
     });
 
-    const [participants, setParticipants] = useState<Participant[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
+    const [sponsors, setSponsors] = useState<Sponsor[]>([]);
     const [loading, setLoading] = useState(true);
 
     const [alertVisible, setAlertVisible] = useState(false);
@@ -52,23 +52,23 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [participantsData, eventsData] = await Promise.all([
-                    ParticipantService.getAll(),
-                    EventService.getAll()
+                const [eventsData, sponsorsData] = await Promise.all([
+                    EventService.getAll(),
+                    SponsorService.getAll(),
                 ]);
 
-                setParticipants(participantsData);
                 setEvents(eventsData);
+                setSponsors(sponsorsData);
 
                 if (initialData) {
-                    const selectedParticipant = participantsData.find(p => p.id === initialData.participantId);
                     const selectedEvent = eventsData.find(e => e.id === initialData.eventId);
+                    const selectedSponsor = sponsorsData.find(p => p.id === initialData.sponsorId);
 
                     setFormData({
-                        participantId: initialData.participantId,
                         eventId: initialData.eventId,
-                        participantName: selectedParticipant?.name || '',
-                        eventName: selectedEvent?.name || ''
+                        sponsorId: initialData.sponsorId,
+                        eventName: selectedEvent?.name || '',
+                        sponsorName: selectedSponsor?.name || '',
                     });
                 }
             } catch (error) {
@@ -98,8 +98,8 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
         const validationData = {
             ...formData,
             // Para la validación, convertir 0 a string vacío para que falle la validación required
-            participantId: formData.participantId === 0 ? '' : formData.participantId.toString(),
             eventId: formData.eventId === 0 ? '' : formData.eventId.toString(),
+            sponsorId: formData.sponsorId === 0 ? '' : formData.sponsorId.toString(),
         };
 
         const formErrors = validateForm(validationData, validationConfig);
@@ -114,19 +114,19 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
             await onSubmit({
                 id: initialData?.id ?? 0,
                 ...formData
-            } as ParticipantEvent);
-            showSuccess('Participación guardada exitosamente!');
+            } as EventSponsor);
+            showSuccess('EventoPatrocinador guardada exitosamente!');
             if (!initialData) {
                 setFormData({
-                    participantId: 0,
-                    participantName: '',
                     eventId: 0,
                     eventName: '',
+                    sponsorId: 0,
+                    sponsorName: '',
                 });
             }
         } catch (error) {
             showError(
-                error instanceof Error ? error.message : 'Error al guardar el Participación'
+                error instanceof Error ? error.message : 'Error al guardar el EventoPatrocinador'
             );
         }
     };
@@ -157,51 +157,6 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
 
     return (
         <View className="space-y-4 mx-2">
-
-            {/* Select Participant */}
-            <View className='mb-4'>
-                <Text className={`${colors.heading} text-xl font-bold mb-1`}>Participante</Text>
-                <SelectDropdown
-                    data={participants}
-                    defaultValue={formData.participantId !== 0 && participants.length > 0 ? participants.find(l => l.id === formData.participantId) : undefined}
-                    key={`location-${formData.participantId}-${participants.length}`}
-                    onSelect={(selectedItem: Location) => {
-                        handleSelectChange('participantId', selectedItem.id, selectedItem.name);
-                    }}
-                    renderButton={(selectedItem: Location | undefined) => {
-                        return (
-                            <View style={[
-                                dropdownStyles.button,
-                                { borderColor: errors.locationId ? '#EF4444' : '#D1D5DB' }
-                            ]}>
-                                <Text style={[
-                                    dropdownStyles.buttonText,
-                                    !selectedItem && { color: '#999' }
-                                ]}>
-                                    {selectedItem?.name || 'Seleccione Participante'}
-                                </Text>
-                            </View>
-                        );
-                    }}
-                    renderItem={(item: Location, index: number, isSelected: boolean) => {
-                        return (
-                            <View style={[
-                                dropdownStyles.dropdownItem,
-                                isSelected && { backgroundColor: '#E3F2FD' }
-                            ]}>
-                                <Text style={dropdownStyles.dropdownItemText}>
-                                    {item.name}
-                                </Text>
-                            </View>
-                        );
-                    }}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={dropdownStyles.dropdown}
-                />
-                {errors.locationId && (
-                    <Text className="text-red-500 text-xs mt-1 ml-2">{errors.locationId}</Text>
-                )}
-            </View>
 
             {/* Select Event */}
             <View className='mb-4'>
@@ -248,6 +203,51 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
                 )}
             </View>
 
+            {/* Select Sponsor */}
+            <View className='mb-4'>
+                <Text className={`${colors.heading} text-xl font-bold mb-1`}>Sponsore</Text>
+                <SelectDropdown
+                    data={sponsors}
+                    defaultValue={formData.sponsorId !== 0 && sponsors.length > 0 ? sponsors.find(l => l.id === formData.sponsorId) : undefined}
+                    key={`location-${formData.sponsorId}-${sponsors.length}`}
+                    onSelect={(selectedItem: Location) => {
+                        handleSelectChange('sponsorId', selectedItem.id, selectedItem.name);
+                    }}
+                    renderButton={(selectedItem: Location | undefined) => {
+                        return (
+                            <View style={[
+                                dropdownStyles.button,
+                                { borderColor: errors.locationId ? '#EF4444' : '#D1D5DB' }
+                            ]}>
+                                <Text style={[
+                                    dropdownStyles.buttonText,
+                                    !selectedItem && { color: '#999' }
+                                ]}>
+                                    {selectedItem?.name || 'Seleccione Patrocinador'}
+                                </Text>
+                            </View>
+                        );
+                    }}
+                    renderItem={(item: Location, index: number, isSelected: boolean) => {
+                        return (
+                            <View style={[
+                                dropdownStyles.dropdownItem,
+                                isSelected && { backgroundColor: '#E3F2FD' }
+                            ]}>
+                                <Text style={dropdownStyles.dropdownItemText}>
+                                    {item.name}
+                                </Text>
+                            </View>
+                        );
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    dropdownStyle={dropdownStyles.dropdown}
+                />
+                {errors.locationId && (
+                    <Text className="text-red-500 text-xs mt-1 ml-2">{errors.locationId}</Text>
+                )}
+            </View>
+
             {/* Botón de enviar */}
             <TouchableOpacity
                 activeOpacity={0.8}
@@ -274,7 +274,7 @@ export default function ParEventForm({ initialData, onSubmit, submitLabel = 'Gua
                 onConfirmPressed={() => {
                     setAlertVisible(false);
                     if (alertSuccess) {
-                        navigation.navigate('ParticipantEvent');
+                        navigation.navigate('EventSponsor');
                     }
                 }}
             />

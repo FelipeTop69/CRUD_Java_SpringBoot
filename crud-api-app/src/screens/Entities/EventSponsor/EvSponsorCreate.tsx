@@ -1,18 +1,57 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { EventSponsorService } from '../../../api/Entities/eventsponsorService';
+import BackButton from '../../../components/Base/BackButton';
+import EvnSponsorForm from '../../../components/Base/forms/EvnSponsorForm';
+import { colors } from '../../../themes';
+import { images } from '../../../utils/assetsMap';
 
-export default function EvSponsorCreate() {
+
+export default function EventSponsorCreate() {
+    const handleCreate = async (data: any) => {
+        console.log(data)
+        await EventSponsorService.create(data);
+    };
+
     return (
-        <View style={styles.container}>
-            <Text> textInComponent </Text>
-        </View>
+        <SafeAreaView className="flex-1 bg-gray-50" edges={['left', 'right', 'bottom']}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                className="flex-1"
+            >
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+                    <View className="flex justify-between h-full mx-4 pt-4 pb-6">
+                        {/* Encabezado */}
+                        <View className="space-y-6">
+                            <View className="flex-row items-center justify-between mb-2">
+                                <View className="w-8 h-8 items-center justify-center">
+                                    <BackButton to='EventSponsor' />
+                                </View>
+                                <Text className={`${colors.heading} text-2xl font-bold text-center flex-1`}>
+                                    Agregar Patrocinio
+                                </Text>
+                                <View className="w-8 h-8" />
+                            </View>
+
+                            {/* Imagen */}
+                            <View className="flex-row justify-center">
+                                <Image
+                                    className="h-64 w-64"
+                                    resizeMode="cover"
+                                    source={images.actions_screen}
+                                />
+                            </View>
+
+                            {/* Formulario */}
+                            <EvnSponsorForm
+                                onSubmit={handleCreate}
+                                submitLabel="Crear Patrocinio"
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-});
