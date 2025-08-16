@@ -6,6 +6,11 @@ export interface Event {
     organizerId: number
     locationId: number
     categoryId: number
+
+    // Propiedades opcionales para UI
+    organizerName?: string;
+    locationName?: string;
+    categoryName?: string;
 }
 
 export interface EventResponse {

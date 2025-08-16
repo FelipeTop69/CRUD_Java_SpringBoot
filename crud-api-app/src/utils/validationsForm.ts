@@ -2,41 +2,41 @@ import { FieldValidationConfig, ValidationRule } from "./validationsType";
 
 export const commonValidations = {
     required: (message: string): ValidationRule => ({
-        condition: (value) => !!value?.trim(),
+        condition: (value) => !!String(value ?? '').trim(),
         message
     }),
     exactLength: (length: number, message: string): ValidationRule => ({
-        condition: (value) => value?.length === length,
+        condition: (value) => String(value ?? '').length === length,
         message
     }),
     numeric: (message: string): ValidationRule => ({
-        condition: (value) => /^\d+$/.test(value || ''),
+        condition: (value) => /^\d+$/.test(String(value ?? '')),
         message
     }),
     minLength: (min: number, message: string): ValidationRule => ({
-        condition: (value) => (value?.length || 0) >= min,
+        condition: (value) => String(value ?? '').length >= min,
         message
     }),
     maxLength: (max: number, message: string): ValidationRule => ({
-        condition: (value) => (value?.length || 0) <= max,
+        condition: (value) => String(value ?? '').length <= max,
         message
     })
 };
 
 export const validateForm = (
-    formData: Record<string, string>,
+    formData: Record<string, string | number>,
     config: FieldValidationConfig
 ): Record<string, string | null> => {
     const errors: Record<string, string | null> = {};
 
-    // Validar cada campo definido en la configuración
     for (const fieldName in config) {
         const rules = config[fieldName];
         if (!rules) continue;
 
-        // Buscar la primera regla que falle
+        const value = formData[fieldName] ?? '';
+
         for (const rule of rules) {
-            if (!rule.condition(formData[fieldName] || '')) {
+            if (!rule.condition(value)) {
                 errors[fieldName] = rule.message;
                 break;
             }

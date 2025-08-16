@@ -1,8 +1,8 @@
+export type ValidationValue = string | number;
+
 export type ValidationRule = {
-    condition: (value: string) => boolean;
+    condition: (value: ValidationValue) => boolean;
     message: string;
 };
 
-export type FieldValidationConfig = {
-    [fieldName: string]: ValidationRule[];
-};
+export type FieldValidationConfig = Record<string, ValidationRule[]>;
