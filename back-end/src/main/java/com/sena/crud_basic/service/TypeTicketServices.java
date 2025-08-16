@@ -32,44 +32,59 @@ public class TypeTicketServices {
     }
 
     public responseDTO save(TypeTicketDTO typeTicketDTO) {
-        String normalizeName  = StringNormalizer.normalize(typeTicketDTO.getName());
+        String normalizeName = StringNormalizer.normalize(typeTicketDTO.getName());
 
         List<TypeTicket> allTypeTickets = typeTicketData.findAll();
 
         boolean exists = allTypeTickets.stream()
-            .map(t -> StringNormalizer.normalize(t.getName()))
-            .anyMatch(name -> name.equals(normalizeName));
+                .map(t -> StringNormalizer.normalize(t.getName()))
+                .anyMatch(name -> name.equals(normalizeName));
 
         if (exists) {
-            throw new IllegalArgumentException("Ya existe un TypeTicket con el nombre " + typeTicketDTO.getName());
+            throw new IllegalArgumentException("Ya existe un tipo de Entrada con el nombre " + typeTicketDTO.getName());
         }
 
         TypeTicket typeTicket = TypeTicketMapper.toEntity(typeTicketDTO);
         TypeTicket savedTypeTicket = typeTicketData.save(typeTicket);
         TypeTicketDTO savedTypeTicketDTO = TypeTicketMapper.toDTO(savedTypeTicket);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "TypeTicket creado con exito",
-            savedTypeTicketDTO
-        );
+                HttpStatus.CREATED,
+                "TypeTicket creado con exito",
+                savedTypeTicketDTO);
     }
 
     public responseDTO update(TypeTicketDTO typeTicketDTO) {
         TypeTicket typeTicket = typeTicketData.findById(typeTicketDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("TypeTicket con ID " + typeTicketDTO.getId() + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(
+                        "TypeTicket con ID " + typeTicketDTO.getId() + " no encontrado"));
 
+        // Normalizar solo para comparación
+        String normalizedNewName = StringNormalizer.normalize(typeTicketDTO.getName());
+        String normalizedCurrentName = StringNormalizer.normalize(typeTicket.getName());
+
+        // Validar solo si el nombre cambió
+        if (!normalizedNewName.equals(normalizedCurrentName)) {
+            typeTicketData.findByNameIgnoreCase(normalizedNewName)
+                    .ifPresent(other -> {
+                        if (other.getId() != typeTicketDTO.getId()) {
+                            throw new IllegalArgumentException(
+                                    "Ya existe un tipo de entrada con el nombre: " + typeTicketDTO.getName());
+                        }
+                    });
+        }
+
+        // Guardar valores originales
         typeTicket.setName(typeTicketDTO.getName());
         typeTicket.setDescription(typeTicketDTO.getDescription());
 
         TypeTicket updatedTypeTicket = typeTicketData.save(typeTicket);
-        TypeTicketDTO updatedTypeTicketDTO = TypeTicketMapper.toDTO(updatedTypeTicket);
-
-        return new responseDTO(HttpStatus.OK, "TypeTicket actualizado con exito", updatedTypeTicketDTO);
+        return new responseDTO(HttpStatus.OK, "TypeTicket actualizado con éxito",
+                TypeTicketMapper.toDTO(updatedTypeTicket));
     }
 
     public responseDTO delete(int id) {
         TypeTicket typeTicket = typeTicketData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("TypeTicket con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("TypeTicket con ID " + id + " no encontrado"));
 
         typeTicketData.delete(typeTicket);
         return new responseDTO(HttpStatus.OK, "TypeTicket con id " + id + " eliminado con exito");

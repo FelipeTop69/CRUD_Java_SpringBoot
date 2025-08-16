@@ -34,52 +34,65 @@ public class SponsorServices {
 
     public responseDTO save(SponsorDTO sponsorDTO) {
         List<String> normalizedInputs = Arrays.asList(
-            StringNormalizer.normalize(sponsorDTO.getName()),
-            StringNormalizer.normalize(sponsorDTO.getPhone())
-            
-        );
-        
-        boolean exists = sponsorData.findAll().stream()
-            .anyMatch(sponsor -> {
-                List<String> normalizedSponsorFields = Arrays.asList(
-                    StringNormalizer.normalize(sponsor.getName()),
-                    StringNormalizer.normalize(sponsor.getPhone())
-                );
+                StringNormalizer.normalize(sponsorDTO.getName()),
+                StringNormalizer.normalize(sponsorDTO.getPhone())
 
-                return normalizedSponsorFields.stream()
-                    .anyMatch(normalizedInputs::contains);
-            });
-        
+        );
+
+        boolean exists = sponsorData.findAll().stream()
+                .anyMatch(sponsor -> {
+                    List<String> normalizedSponsorFields = Arrays.asList(
+                            StringNormalizer.normalize(sponsor.getPhone()));
+
+                    return normalizedSponsorFields.stream()
+                            .anyMatch(normalizedInputs::contains);
+                });
+
         if (exists) {
-            throw new IllegalArgumentException("Ya existe un sponsor con los datos proporcionados");
+            throw new IllegalArgumentException("Ya existe otro patrocinador con el teléfono con los datos proporcionados");
         }
 
         Sponsor sponsor = SponsorMapper.toEntity(sponsorDTO);
         Sponsor savedSponsor = sponsorData.save(sponsor);
         SponsorDTO savedSponsorDTO = SponsorMapper.toDTO(savedSponsor);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "Sponsor creado con exito",
-            savedSponsorDTO
-        );
+                HttpStatus.CREATED,
+                "Sponsor creado con exito",
+                savedSponsorDTO);
     }
 
     public responseDTO update(SponsorDTO sponsorDTO) {
         Sponsor sponsor = sponsorData.findById(sponsorDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Sponsor con ID " + sponsorDTO.getId() + " no encontrado"));
+                .orElseThrow(
+                        () -> new NoSuchElementException("Sponsor con ID " + sponsorDTO.getId() + " no encontrado"));
 
+        // Normalizar solo para comparación
+        String normalizedNewPhone = StringNormalizer.normalize(sponsorDTO.getPhone());
+        String normalizedCurrentPhone = StringNormalizer.normalize(sponsor.getPhone());
+
+        // Validar solo si el teléfono cambió
+        if (!normalizedNewPhone.equals(normalizedCurrentPhone)) {
+            sponsorData.findByPhone(normalizedNewPhone)
+                    .ifPresent(other -> {
+                        if (other.getId() != sponsorDTO.getId()) {
+                            throw new IllegalArgumentException(
+                                    "Ya existe un patrocinador con teléfono: " + sponsorDTO.getPhone());
+                        }
+                    });
+        }
+
+        // Guardar valores originales
         sponsor.setName(sponsorDTO.getName());
         sponsor.setPhone(sponsorDTO.getPhone());
 
         Sponsor updatedSponsor = sponsorData.save(sponsor);
-        SponsorDTO updatedSponsorDTO = SponsorMapper.toDTO(updatedSponsor);
-
-        return new responseDTO(HttpStatus.OK, "Sponsor actualizado con exito", updatedSponsorDTO);
+        return new responseDTO(HttpStatus.OK, "Sponsor actualizado con éxito",
+                SponsorMapper.toDTO(updatedSponsor));
     }
 
     public responseDTO delete(int id) {
         Sponsor sponsor = sponsorData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Sponsor con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Sponsor con ID " + id + " no encontrado"));
 
         sponsorData.delete(sponsor);
         return new responseDTO(HttpStatus.OK, "Sponsor con id " + id + " eliminado con exito");

@@ -33,44 +33,59 @@ public class CategoryServices {
     }
 
     public responseDTO save(CategoryDTO categoryDTO) {
-        String normalizeName  = StringNormalizer.normalize(categoryDTO.getName());
+        String normalizeName = StringNormalizer.normalize(categoryDTO.getName());
 
         List<Category> allCategories = categoryData.findAll();
 
         boolean exists = allCategories.stream()
-            .map(t -> StringNormalizer.normalize(t.getName()))
-            .anyMatch(name -> name.equals(normalizeName));
+                .map(t -> StringNormalizer.normalize(t.getName()))
+                .anyMatch(name -> name.equals(normalizeName));
 
         if (exists) {
-            throw new IllegalArgumentException("Ya existe una Category con el nombre " + categoryDTO.getName());
+            throw new IllegalArgumentException("Ya existe una Categoía con el nombre " + categoryDTO.getName());
         }
 
         Category category = CategoryMapper.toEntity(categoryDTO);
         Category savedCategory = categoryData.save(category);
         CategoryDTO savedCategoryDTO = CategoryMapper.toDTO(savedCategory);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "Category creada con exito",
-            savedCategoryDTO
-        );
+                HttpStatus.CREATED,
+                "Category creada con exito",
+                savedCategoryDTO);
     }
 
     public responseDTO update(CategoryDTO categoryDTO) {
         Category category = categoryData.findById(categoryDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Category con ID " + categoryDTO.getId() + " no encontrada"));
+                .orElseThrow(
+                        () -> new NoSuchElementException("Category con ID " + categoryDTO.getId() + " no encontrada"));
 
+        // Normalizar solo para comparación
+        String normalizedNewName = StringNormalizer.normalize(categoryDTO.getName());
+        String normalizedCurrentName = StringNormalizer.normalize(category.getName());
+
+        // Validar solo si el nombre cambió
+        if (!normalizedNewName.equals(normalizedCurrentName)) {
+            categoryData.findByNameIgnoreCase(normalizedNewName)
+                    .ifPresent(other -> {
+                        if (other.getId() != categoryDTO.getId()) {
+                            throw new IllegalArgumentException(
+                                    "Ya existe una categoría con el nombre: " + categoryDTO.getName());
+                        }
+                    });
+        }
+
+        // Guardar valores originales
         category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());
 
         Category updatedCategory = categoryData.save(category);
-        CategoryDTO updatedCategoryDTO = CategoryMapper.toDTO(updatedCategory);
-
-        return new responseDTO(HttpStatus.OK, "Category actualizada con exito", updatedCategoryDTO);
+        return new responseDTO(HttpStatus.OK, "Category actualizada con éxito",
+                CategoryMapper.toDTO(updatedCategory));
     }
 
     public responseDTO delete(int id) {
         Category category = categoryData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Category con ID " + id + " no encontrada"));
+                .orElseThrow(() -> new NoSuchElementException("Category con ID " + id + " no encontrada"));
 
         categoryData.delete(category);
         return new responseDTO(HttpStatus.OK, "Category con id " + id + " eliminada con éxito");
@@ -79,35 +94,37 @@ public class CategoryServices {
 
 // VERSION Old
 // public CategoryDTO save(CategoryDTO categoryDTO) {
-//     Category category = CategoryMapper.toEntity(categoryDTO);
-//     Category savedCategory = categoryData.save(category);
-//     return CategoryMapper.toDTO(savedCategory);
+// Category category = CategoryMapper.toEntity(categoryDTO);
+// Category savedCategory = categoryData.save(category);
+// return CategoryMapper.toDTO(savedCategory);
 // }
 
 // public boolean update(CategoryDTO categoryDTO) {
-//     return categoryData.findById(categoryDTO.getId()).map(existingCategory -> {
-//         existingCategory.setName(categoryDTO.getName());
-//         existingCategory.setDescription(categoryDTO.getDescription());
-//         categoryData.save(existingCategory);
-//         return true;
-//     }).orElse(false);
+// return categoryData.findById(categoryDTO.getId()).map(existingCategory -> {
+// existingCategory.setName(categoryDTO.getName());
+// existingCategory.setDescription(categoryDTO.getDescription());
+// categoryData.save(existingCategory);
+// return true;
+// }).orElse(false);
 // }
 
 // public boolean delete(int id) {
-//     return categoryData.findById(id).map(category -> {
-//         categoryData.delete(category);
-//         return true;
-//     }).orElse(false);
+// return categoryData.findById(id).map(category -> {
+// categoryData.delete(category);
+// return true;
+// }).orElse(false);
 // }
 
 // Version Old
 // 01
 // if (categoryData.existsByName(categoryDTO.getName())) {
-//     throw new IllegalArgumentException("Ya existe una category con el nombre " + categoryDTO.getName());
+// throw new IllegalArgumentException("Ya existe una category con el nombre " +
+// categoryDTO.getName());
 // }
 // 02
 // String convertName = categoryDTO.getName().replaceAll("\\s", "");
 
 // if (categoryData.existsByNameIgnoreCase(convertName)) {
-//     throw new IllegalArgumentException("Ya existe una category con el nombre " + categoryDTO.getName());
+// throw new IllegalArgumentException("Ya existe una category con el nombre " +
+// categoryDTO.getName());
 // }

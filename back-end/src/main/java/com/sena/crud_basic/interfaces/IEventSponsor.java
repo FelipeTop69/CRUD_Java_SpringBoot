@@ -17,4 +17,6 @@ public interface IEventSponsor extends JpaRepository<Event_Sponsor, Integer>{
 
     @Query("SELECT es FROM event_sponsor es JOIN FETCH es.event JOIN FETCH es.sponsor WHERE es.id = :id ORDER BY es.id")
     Optional<Event_Sponsor> findEventSponsorByIdJoin(@Param("id") int id);
+
+    boolean existsByEventIdAndSponsorId(int eventId, int sponsorId);
 }

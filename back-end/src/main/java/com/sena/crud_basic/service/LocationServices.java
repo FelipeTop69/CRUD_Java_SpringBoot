@@ -32,45 +32,60 @@ public class LocationServices {
     }
 
     public responseDTO save(LocationDTO locationDTO) {
-        String normalizeName  = StringNormalizer.normalize(locationDTO.getName());
+        String normalizeAddress = StringNormalizer.normalize(locationDTO.getAddress());
 
         List<Location> allLocations = locationData.findAll();
 
         boolean exists = allLocations.stream()
-            .map(t -> StringNormalizer.normalize(t.getName()))
-            .anyMatch(name -> name.equals(normalizeName));
+                .map(t -> StringNormalizer.normalize(t.getAddress()))
+                .anyMatch(name -> name.equals(normalizeAddress));
 
         if (exists) {
-            throw new IllegalArgumentException("Ya existe una Location con el nombre " + locationDTO.getName());
+            throw new IllegalArgumentException("Ya existe una Ubicación con dirección " + locationDTO.getAddress());
         }
 
         Location location = LocationMapper.toEntity(locationDTO);
         Location savedLocation = locationData.save(location);
         LocationDTO savedLocationDTO = LocationMapper.toDTO(savedLocation);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "Location creada con exito",
-            savedLocationDTO
-        );
+                HttpStatus.CREATED,
+                "Location creada con exito",
+                savedLocationDTO);
     }
 
     public responseDTO update(LocationDTO locationDTO) {
         Location location = locationData.findById(locationDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Location con ID " + locationDTO.getId() + " no econtrada"));
+                .orElseThrow(
+                        () -> new NoSuchElementException("Location con ID " + locationDTO.getId() + " no encontrada"));
 
+        // Normalizar solo para comparación
+        String normalizedNewAddress = StringNormalizer.normalize(locationDTO.getAddress());
+        String normalizedCurrentAddress = StringNormalizer.normalize(location.getAddress());
+
+        // Validar dirección si cambió
+        if (!normalizedNewAddress.equals(normalizedCurrentAddress)) {
+            locationData.findByAddressIgnoreCase(normalizedNewAddress)
+                    .ifPresent(other -> {
+                        if (other.getId() != locationDTO.getId()) {
+                            throw new IllegalArgumentException(
+                                    "Ya existe una ubicación con dirección: " + locationDTO.getAddress());
+                        }
+                    });
+        }
+
+        // Guardar valores originales
         location.setName(locationDTO.getName());
         location.setAddress(locationDTO.getAddress());
         location.setCapacity(locationDTO.getCapacity());
 
         Location updatedLocation = locationData.save(location);
-        LocationDTO updatedLocationDTO = LocationMapper.toDTO(updatedLocation);
-
-        return new responseDTO(HttpStatus.OK, "Location actualizada con exito", updatedLocationDTO);
+        return new responseDTO(HttpStatus.OK, "Location actualizada con éxito",
+                LocationMapper.toDTO(updatedLocation));
     }
 
     public responseDTO delete(int id) {
         Location location = locationData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Location con ID " + id + " no econtrada"));
+                .orElseThrow(() -> new NoSuchElementException("Location con ID " + id + " no econtrada"));
 
         locationData.delete(location);
         return new responseDTO(HttpStatus.OK, "Location con id " + id + " eliminada con exito");

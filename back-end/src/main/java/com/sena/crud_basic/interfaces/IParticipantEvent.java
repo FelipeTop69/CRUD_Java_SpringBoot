@@ -17,4 +17,6 @@ public interface IParticipantEvent extends JpaRepository<Participant_Event, Inte
 
     @Query("SELECT pe FROM participant_event pe JOIN FETCH pe.participant JOIN FETCH pe.event WHERE pe.id = :id ORDER BY pe.id")
     Optional<Participant_Event> findParticipantEventByIdJoin(@Param("id") int id);
+
+    boolean existsByParticipantIdAndEventId(int participantId, int eventId);
 }

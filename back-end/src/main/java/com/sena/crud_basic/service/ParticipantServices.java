@@ -34,52 +34,65 @@ public class ParticipantServices {
 
     public responseDTO save(ParticipantDTO participantDTO) {
         List<String> normalizedInputs = Arrays.asList(
-            StringNormalizer.normalize(participantDTO.getName()),
-            StringNormalizer.normalize(participantDTO.getPhone())
-            
-        );
-        
-        boolean exists = participantData.findAll().stream()
-            .anyMatch(participant -> {
-                List<String> normalizedParticipantFields = Arrays.asList(
-                    StringNormalizer.normalize(participant.getName()),
-                    StringNormalizer.normalize(participant.getPhone())
-                );
+                StringNormalizer.normalize(participantDTO.getName()),
+                StringNormalizer.normalize(participantDTO.getPhone())
 
-                return normalizedParticipantFields.stream()
-                    .anyMatch(normalizedInputs::contains);
-            });
-        
+        );
+
+        boolean exists = participantData.findAll().stream()
+                .anyMatch(participant -> {
+                    List<String> normalizedParticipantFields = Arrays.asList(
+                            StringNormalizer.normalize(participant.getPhone()));
+
+                    return normalizedParticipantFields.stream()
+                            .anyMatch(normalizedInputs::contains);
+                });
+
         if (exists) {
-            throw new IllegalArgumentException("Ya existe un participant con los datos proporcionados");
+            throw new IllegalArgumentException("Ya existe un participante con el teléfono proporcionado");
         }
 
         Participant participant = ParticipantMapper.toEntity(participantDTO);
         Participant savedParticipant = participantData.save(participant);
         ParticipantDTO savedParticipantDTO = ParticipantMapper.toDTO(savedParticipant);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "Participant creado con exito",
-            savedParticipantDTO
-        );
+                HttpStatus.CREATED,
+                "Participant creado con exito",
+                savedParticipantDTO);
     }
 
     public responseDTO update(ParticipantDTO participantDTO) {
         Participant participant = participantData.findById(participantDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Participant con ID " + participantDTO.getId() + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Participante con ID " + participantDTO.getId() + " no encontrado"));
 
+        // Normalizar solo para comparación
+        String normalizedNewPhone = StringNormalizer.normalize(participantDTO.getPhone());
+        String normalizedCurrentPhone = StringNormalizer.normalize(participant.getPhone());
+
+        // Validar solo si el teléfono cambió
+        if (!normalizedNewPhone.equals(normalizedCurrentPhone)) {
+            participantData.findByPhone(normalizedNewPhone)
+                    .ifPresent(other -> {
+                        if (other.getId() != participantDTO.getId()) {
+                            throw new IllegalArgumentException(
+                                    "Ya existe otro participante con el teléfono: " + participantDTO.getPhone());
+                        }
+                    });
+        }
+
+        // Guardar valores originales
         participant.setName(participantDTO.getName());
         participant.setPhone(participantDTO.getPhone());
 
         Participant updatedParticipant = participantData.save(participant);
-        ParticipantDTO updatedParticipantDTO = ParticipantMapper.toDTO(updatedParticipant);
-
-        return new responseDTO(HttpStatus.OK, "Participant actualizado con exito", updatedParticipantDTO);
+        return new responseDTO(HttpStatus.OK, "Participante actualizado con éxito",
+                ParticipantMapper.toDTO(updatedParticipant));
     }
 
     public responseDTO delete(int id) {
         Participant participant = participantData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Participant con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Participant con ID " + id + " no encontrado"));
 
         participantData.delete(participant);
         return new responseDTO(HttpStatus.OK, "Participant con id " + id + " eliminado con exito");
