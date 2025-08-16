@@ -1,5 +1,7 @@
 package com.sena.crud_basic.service;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,37 +34,42 @@ public class EventServices {
     }
 
     public responseDTO save(EventDTO eventDTO) {
-        String normalizeName  = StringNormalizer.normalize(eventDTO.getName());
+        String normalizeName = StringNormalizer.normalize(eventDTO.getName());
 
         List<Event> allEvents = eventData.findAll();
 
         boolean exists = allEvents.stream()
-            .map(t -> StringNormalizer.normalize(t.getName()))
-            .anyMatch(name -> name.equals(normalizeName));
+                .map(t -> StringNormalizer.normalize(t.getName()))
+                .anyMatch(name -> name.equals(normalizeName));
 
         if (exists) {
             throw new IllegalArgumentException("Ya existe una Event con el nombre " + eventDTO.getName());
         }
 
-        boolean existsByDateAndLocation = eventData.existsByDateAndLocation(eventDTO.getDate(), eventDTO.getLocationId());
+        boolean existsByDateAndLocation = eventData.existsByDateAndLocation(eventDTO.getDate(),
+                eventDTO.getLocationId());
 
         if (existsByDateAndLocation) {
             throw new IllegalArgumentException("Ya existe un Event en esa fecha y lugar.");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (eventDTO.getDate().isBefore(now)) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser anterior a la actual.");
         }
 
         Event event = EventMapper.toEntity(eventDTO);
         Event savedEvent = eventData.save(event);
         EventDTO savedEventDTO = EventMapper.toDTO(savedEvent);
         return new responseDTO(
-            HttpStatus.CREATED, 
-            "Event creado con exito",
-            savedEventDTO
-        );
+                HttpStatus.CREATED,
+                "Event creado con exito",
+                savedEventDTO);
     }
 
     public responseDTO update(EventDTO eventDTO) {
         Event event = eventData.findById(eventDTO.getId())
-            .orElseThrow(() -> new NoSuchElementException("Evento con ID " + eventDTO.getId() + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Evento con ID " + eventDTO.getId() + " no encontrado"));
 
         event.setName(eventDTO.getName());
         event.setDescription(eventDTO.getDescription());
@@ -79,7 +86,7 @@ public class EventServices {
 
     public responseDTO delete(int id) {
         Event event = eventData.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Event con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Event con ID " + id + " no encontrado"));
 
         eventData.delete(event);
         return new responseDTO(HttpStatus.OK, "Event con id " + id + " eliminado con éxito");

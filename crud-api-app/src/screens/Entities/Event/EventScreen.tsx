@@ -86,7 +86,7 @@ export default function EventScreen() {
                         <Text
                             className={`${colors.heading} text-xl font-black uppercase italic tracking-[2px]`}
                         >
-                            categorías
+                            eventos
                         </Text>
                         <TouchableOpacity
 
@@ -105,7 +105,7 @@ export default function EventScreen() {
                     <View className="mt-3 max-h-[430px]">
                         <FlatList
                             data={events}
-                            ListEmptyComponent={<EmptyList message="No hay categorías" />}
+                            ListEmptyComponent={<EmptyList message="No hay eventos" />}
                             keyExtractor={item => item.id.toString()}
                             showsVerticalScrollIndicator={false}
                             className="mx-1"

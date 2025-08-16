@@ -20,22 +20,27 @@ import { DrawerParamList } from '../../types/navigation';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-interface Props {
-    item: any;
+interface Props<T = any> {
+    item: T;
     index: number;
-    onView?: (item: any) => void;
-    onEdit?: (item: any) => void;
-    onDelete?: (item: any) => void;
+    onView?: (item: T) => void;
+    onEdit?: (item: T) => void;
+    onDelete?: (item: T) => void;
+    displayField?: keyof T; // Nueva prop opcional
+    deleteMessage?: (item: T) => string; // Mensaje personalizable
 }
 
 type ActionType = 'view' | 'edit' | 'delete';
 
-export default function RegisterList({
+export default function RegisterList<T extends { name?: string }>({
     item,
     index,
     onView,
     onEdit,
     onDelete,
+    displayField = 'name', // Mantenemos 'name' como default
+    deleteMessage = (item: T) =>
+        `¿Estás seguro de eliminar "${item.name || 'este registro'}"?`
 }: Props) {
     const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
@@ -51,8 +56,8 @@ export default function RegisterList({
                 break;
             case 'delete':
                 Alert.alert(
-                    '¿Eliminar categoría?',
-                    `¿Estás seguro de que deseas eliminar "${item.name}"?`,
+                    '¿Eliminar registro?',
+                    deleteMessage(item),
                     [
                         { text: 'Cancelar', style: 'cancel' },
                         {
@@ -66,6 +71,18 @@ export default function RegisterList({
         }
     };
 
+    // Función para obtener el valor a mostrar
+    const getDisplayValue = () => {
+        if (displayField && item[displayField]) {
+            return String(item[displayField]);
+        }
+        // Fallback para tickets
+        if ('typeTicketName' in item && 'price' in item) {
+            return `Entrada ${item.typeTicketName} - $${item.price}`;
+        }
+        return 'Sin nombre';
+    };
+
     return (
         <Animated.View
             entering={FadeInUp.delay(index * 100)}
@@ -76,8 +93,14 @@ export default function RegisterList({
                 {/* Información */}
                 <View>
                     <Text className={`${colors.heading} text-lg font-semibold`}>
-                        {item.name}
+                        {getDisplayValue()}
                     </Text>
+                    {/* Mostrar información adicional para tickets */}
+                    {'availableQuantity' in item && (
+                        <Text className="text-gray-500 text-sm">
+                            Disponibles: {item.availableQuantity}
+                        </Text>
+                    )}
                 </View>
 
                 {/* Botones */}

@@ -39,3 +39,15 @@ export const formatEventDate = (dateString: string | number | Date) => {
         };
     }
 };
+
+// Función para formatear la fecha de manera más legible (Usado para Event)
+export const formatDateTime = (date: Date) => {
+    return date.toLocaleString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+};

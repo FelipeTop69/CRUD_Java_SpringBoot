@@ -17,6 +17,7 @@ import { DrawerParamList } from '../../../types/navigation';
 import { commonValidations, validateForm } from '../../../utils/validationsForm';
 import { FieldValidationConfig } from '../../../utils/validationsType';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { formatDateTime } from '../../../utils/dateFormatter';
 
 type Props = {
     initialData?: Event;
@@ -44,11 +45,9 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
         organizerId: initialData?.organizerId || 0,
         locationId: initialData?.locationId || 0,
         categoryId: initialData?.categoryId || 0,
-
         organizerName: initialData?.organizerName || '',
         locationName: initialData?.locationName || '',
         categoryName: initialData?.categoryName || ''
-
     });
 
     const [errors, setErrors] = useState<Record<string, string | null>>({
@@ -154,11 +153,6 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
                 }, 100);
             }
         }
-
-        // En iOS, solo cerramos si es el modo time o si el usuario terminó
-        if (Platform.OS === 'ios') {
-            setShowDatePicker(false);
-        }
     };
 
     const showDatePickerHandler = () => {
@@ -166,7 +160,6 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
             setMode('date');
             setShowDatePicker(true);
         } else {
-            // En iOS, mostramos el picker con modo datetime
             setMode('date');
             setShowDatePicker(true);
         }
@@ -228,7 +221,6 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
                     locationName: '',
                     categoryId: 0,
                     categoryName: '',
-
                 });
                 setSelectedDate(resetDate);
             }
@@ -253,17 +245,7 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
         setAlertVisible(true);
     };
 
-    // Función para formatear la fecha de manera más legible
-    const formatDateTime = (date: Date) => {
-        return date.toLocaleString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        });
-    };
+
 
     if (loading) {
         return (
@@ -340,21 +322,6 @@ export default function EventForm({ initialData, onSubmit, submitLabel = 'Guarda
                         display="default"
                         onChange={handleDateChange}
                     />
-                )}
-
-                {/* Para iOS, agregar botón separado para hora si se desea */}
-                {Platform.OS === 'ios' && (
-                    <TouchableOpacity
-                        onPress={() => {
-                            setMode('time');
-                            setShowDatePicker(true);
-                        }}
-                        className="mt-2 p-2 bg-blue-100 rounded-full"
-                    >
-                        <Text className="text-center text-blue-600 text-sm">
-                            Cambiar hora
-                        </Text>
-                    </TouchableOpacity>
                 )}
             </View>
 

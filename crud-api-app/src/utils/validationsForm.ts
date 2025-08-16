@@ -20,6 +20,25 @@ export const commonValidations = {
     maxLength: (max: number, message: string): ValidationRule => ({
         condition: (value) => String(value ?? '').length <= max,
         message
+    }),
+        minValue: (min: number, message: string): ValidationRule => ({
+        condition: (value) => Number(value) >= min,
+        message
+    }),
+    
+    maxValue: (max: number, message: string): ValidationRule => ({
+        condition: (value) => Number(value) <= max,
+        message
+    }),
+    
+    positiveNumber: (message: string): ValidationRule => ({
+        condition: (value) => Number(value) >= 0,
+        message
+    }),
+    
+    integer: (message: string): ValidationRule => ({
+        condition: (value) => Number.isInteger(Number(value)),
+        message
     })
 };
 
