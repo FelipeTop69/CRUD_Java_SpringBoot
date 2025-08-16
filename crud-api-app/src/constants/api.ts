@@ -9,3 +9,5 @@ export const EVENT_ENDPOINT = `${API_BASE_URL}/event/`;
 export const TICKET_ENDPOINT = `${API_BASE_URL}/ticket/`;
 export const EVENTSPONSOR_ENDPOINT = `${API_BASE_URL}/eventsponsor/`;
 export const PARTICIPANTEVENT_ENDPOINT = `${API_BASE_URL}/participantevent/`;
+
+export const ADMINDB_ENDPOINT = `${API_BASE_URL}/admin/`;

@@ -5,6 +5,8 @@
 
 ```bash
 ./mvnw clean install
+./mvnw clean
+./mnvw compile
 ```
 
 </br>

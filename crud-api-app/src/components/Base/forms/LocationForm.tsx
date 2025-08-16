@@ -32,11 +32,17 @@ const validationConfig: FieldValidationConfig = {
         commonValidations.required('La capacidad es obligatoria'),
         commonValidations.numeric('Solo números permitidos'),
         {
-            condition: (value) => parseInt(value || '0') >= 10,
+            condition: (value) => {
+                const num = typeof value === 'string' ? parseInt(value) : Number(value);
+                return num >= 10;
+            },
             message: 'Capacidad mínima 10 participantes'
         },
         {
-            condition: (value) => parseInt(value || '0') <= 1000,
+            condition: (value) => {
+                const num = typeof value === 'string' ? parseInt(value) : Number(value);
+                return num <= 1000;
+            },
             message: 'Capacidad máxima 1000 participantes'
         }
     ]

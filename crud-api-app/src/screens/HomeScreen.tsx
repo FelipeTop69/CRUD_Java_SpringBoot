@@ -1,21 +1,27 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { CountRegistersService } from '../api/countRegisterServices';
+import { AdminService } from '../api/adminDbService';
 import EmptyList from '../components/EmptyList';
 import EntidadCard from '../components/EntityCard';
 import { colors } from '../themes';
 import { Entidad } from '../types/entity';
 import { images } from '../utils/assetsMap';
+import { globalStyles } from '../styles/global';
 
 export default function HomeScreen() {
     const [entidades, setEntidades] = useState<Entidad[]>([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false); // Nuevo estado para el refresco
 
+    // Función para cargar los datos
     const fetchCounts = useCallback(async () => {
         try {
-            setLoading(true);
+            setLoading(prev => !refreshing && prev); // Mantener loading solo si no es un refresh
             const counts = await CountRegistersService.getCounts();
 
             const dynamicEntities: Entidad[] = [
@@ -94,13 +100,69 @@ export default function HomeScreen() {
             setEntidades(dynamicEntities);
         } catch (error) {
             console.error('Error loading counts:', error);
+            Alert.alert('Error', 'No se pudieron cargar los conteos');
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
-    }, []);
+    }, [refreshing]);
 
+    // Recargar los datos manualmente
+    const reloadData = useCallback(() => {
+        setRefreshing(true);
+        fetchCounts();
+    }, [fetchCounts]);
 
-    // Esto se ejecuta cada vez que la pantalla recibe foco
+    // Mostrar alerta de confirmación
+    const showConfirmDialog = () => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        Alert.alert(
+            'Confirmar',
+            '¿Estás seguro de que deseas eliminar todos los registros?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                    onPress: () => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+                },
+                {
+                    text: 'Confirmar',
+                    style: 'destructive',
+                    onPress: () => {
+                        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                        handleKillConnections();
+                    }
+                }
+            ],
+            { cancelable: true }
+        );
+    };
+
+    // Ejecutar la acción de eliminar conexiones
+    const handleKillConnections = () => {
+        AdminService.killAllConnections()
+            .then(() => {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                Alert.alert(
+                    'Éxito',
+                    'Todos los registros han sido borrados',
+                    [{
+                        text: 'OK',
+                        onPress: reloadData // Recargar los datos al presionar OK
+                    }]
+                );
+            })
+            .catch(error => {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+                Alert.alert(
+                    'Error',
+                    error.message || 'Error al borrar los registros',
+                    [{ text: 'OK' }]
+                );
+            });
+    };
+
+    // Cargar datos al enfocar la pantalla
     useFocusEffect(
         useCallback(() => {
             fetchCounts();
@@ -113,22 +175,38 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView className='flex-1' edges={['left', 'right', 'bottom', 'top']}>
-            <View className='flex-row justify-center items-center bg-blue-200 rounded-xl mx-4 mb-4'>
-                <Image source={require('../../assets/img/movil/home.png')} className='w-60 h-60' />
+            <View className='flex-row justify-between items-center mx-4 mb-4'>
+                <View className='flex-row justify-center items-center bg-blue-200 rounded-xl flex-1'>
+                    <Image source={require('../../assets/img/movil/home.png')} className='w-52 h-52' />
+                </View>
             </View>
+
+            <View className='flex-row justify-center items-center mx-4 mb-4'>
+                {/* Botón de acción con feedback háptico */}
+                <TouchableOpacity
+                    onPress={showConfirmDialog}
+                    className="bg-red-500 p-3 rounded-full ml-2"
+                    activeOpacity={0.7}
+                >
+                    <Ionicons name="trash" size={24} color="white" />
+                </TouchableOpacity>
+            </View>
+
             <View className='px-4'>
                 <View className='flex-row justify-center items-center'>
                     <Text className={`${colors.heading} text-[26px] font-black uppercase italic tracking-[2px]`}>
                         entidades
                     </Text>
                 </View>
-                <View className='mt-3 h-[550px]'>
+                <View className='mt-3 h-[520px]' style={globalStyles.border}>
                     <FlatList
                         data={entidades}
                         numColumns={2}
                         ListEmptyComponent={<EmptyList message={"No Hay Entidades"} />}
                         keyExtractor={item => item.id.toString()}
                         showsVerticalScrollIndicator={false}
+                        refreshing={refreshing}
+                        onRefresh={reloadData} // Permitir pull-to-refresh
                         columnWrapperStyle={{
                             justifyContent: 'space-between'
                         }}
