@@ -26,7 +26,7 @@ interface Props<T = any> {
     onView?: (item: T) => void;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
-    displayField?: keyof T; // Nueva prop opcional
+    displayText?: string | ((item: T) => string); 
     deleteMessage?: (item: T) => string; // Mensaje personalizable
 }
 
@@ -38,7 +38,7 @@ export default function RegisterList<T extends { name?: string }>({
     onView,
     onEdit,
     onDelete,
-    displayField = 'name', // Mantenemos 'name' como default
+    displayText  = 'name', // Mantenemos 'name' como default
     deleteMessage = (item: T) =>
         `¿Estás seguro de eliminar "${item.name || 'este registro'}"?`
 }: Props) {
@@ -73,12 +73,16 @@ export default function RegisterList<T extends { name?: string }>({
 
     // Función para obtener el valor a mostrar
     const getDisplayValue = () => {
-        if (displayField && item[displayField]) {
-            return String(item[displayField]);
+        if (typeof displayText === 'function') {
+            return displayText(item);
         }
         // Fallback para tickets
         if ('typeTicketName' in item && 'price' in item) {
             return `Entrada ${item.typeTicketName} - $${item.price}`;
+        }
+
+        if (typeof displayText === 'string' && item[displayText as keyof T]) {
+            return String(item[displayText as keyof T]);
         }
         return 'Sin nombre';
     };
